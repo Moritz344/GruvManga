@@ -1,0 +1,21 @@
+
+<div class="display">
+
+  <div class="home">
+    <button type="button" [routerLink]="['',  ]" (click)="handleHomeClick()">Home</button>
+  </div>
+
+  <div class="topblock" *ngFor="let manga of mangaDetail">
+
+
+    <img [src]="manga.image" width="300" height="300">
+
+    <div class="sub-block">
+      <strong id="title">{{ manga.title }}</strong>
+      <p> {{ manga.description }}</p>
+
+    </div>
+
+  </div>
+
+</div>

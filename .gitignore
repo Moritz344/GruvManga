@@ -1,0 +1,102 @@
+
+# Node dependencies
+/node_modules/
+
+# Build output
+/dist/
+/out-tsc/
+/coverage/
+
+# Angular build artifacts
+/.angular/cache/
+/.angular/
+
+# Environment files (if you use local overrides)
+/src/environments/*.local.ts
+
+# System Files
+.DS_Store
+Thumbs.db
+
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compiled output
+*.tsbuildinfo
+
+# Optional: OS-specific
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# Compiled CSS (if you're using SCSS manually)
+/src/**/*.css
+
+# NPM Cache
+.npm/
+
+# VS Code settings backup
+.code-workspace
+
+# Optional: ignore local proxy config
+/proxy.conf.local.json
+# Node dependencies
+/node_modules/
+
+# Build output
+/dist/
+/out-tsc/
+/coverage/
+
+# Angular build artifacts
+/.angular/cache/
+/.angular/
+
+# Environment files (if you use local overrides)
+/src/environments/*.local.ts
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Compiled output
+*.tsbuildinfo
+
+# Optional: OS-specific
+# macOS
+.AppleDouble
+.LSOverride
+
+# Windows
+ehthumbs.db
+Desktop.ini
+
+# Compiled CSS (if you're using SCSS manually)
+/src/**/*.css
+
+# NPM Cache
+.npm/
+
+# VS Code settings backup
+.code-workspace
+
+# Optional: ignore local proxy config
+/proxy.conf.local.json

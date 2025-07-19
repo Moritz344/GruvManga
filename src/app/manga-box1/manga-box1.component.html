@@ -1,0 +1,51 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+<div class="display">
+
+  <div class="home">
+    <button type="button">Home</button>
+  </div>
+
+  <div class="topbar">
+
+  <input type="text" placeholder="Search ... " [(ngModel)] = "inputValue"  >
+  <button type="button" (click)="handleClick(inputValue)" >
+    <i  class="fas fa-search" ></i>
+  </button>
+  </div>
+
+  <div class="filter-options">
+    <select id="genres" name="genres">
+      <option value="Romance">Romance</option>
+      <option value="Action">Action</option>
+      <option value="Harem">Harem</option>
+      <option value="Fantasy">Fantasy</option>
+    </select>
+    <select id="seasons" name="seasons">
+      <option value="2025">2025</option>
+      <option value="2024">2024</option>
+      <option value="2023">2023</option>
+      <option value="2022">2022</option>
+    </select>
+
+  </div>
+
+</div>
+
+<div class="manga-field">
+
+<div *ngFor="let manga of mangaFace"  >
+
+  <div class="manga-block" *ngIf="mangaFace && mangaFace.length"
+  [routerLink]="['/manga',  manga.title ]"
+  >
+
+  <img [src]="manga.image" width="300" height="300">
+  </div>
+  <br><br><br>
+  <strong>{{ manga.title }}</strong>
+
+</div>
+
+</div>
