@@ -13,34 +13,59 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
   providers: [MangaServiceService]
 })
 export class MangaBox1Component {
+  // TODO: pages
   mangaData: any;
 
   mangaTitle = "";
   mangaDesc = "";
 
   inputValue = "";
+  GenreFilter = "";
+  YearOption = "";
+
+  FilterOptions: string[] = [];
 
   mangaFace: Manga[] = [];
 
 
   handleClick(value:string){
     this.mangaTitle = value;
-    console.log(this.mangaTitle);
+    console.log("User input:",this.mangaTitle);
 
 
-      this.loadData();
+      this.loadData(this.FilterOptions);
+  }
+
+  handleYearOption(value: string) {
+    this.YearOption = value;
+    console.log(this.YearOption);
+  }
+
+  handleFilterOption(value: string) {
+    if (value !== "off" && !this.FilterOptions.includes(value) ) {
+      this.GenreFilter = value;
+      this.FilterOptions.push(value);
+      console.log("Current FilterOptions:",this.FilterOptions)
+
+    }
+  }
+
+  resetFilterOptions() {
+    this.FilterOptions.length = 0;
+    this.YearOption = "2025";
+    console.log("Cleared FilterOptions",this.FilterOptions);
   }
 
 
   constructor(private mangaInfoService: MangaServiceService, ) {
-    this.handleClick("");
+    this.handleClick("Naruto"); // TODO: change to Popular manga
   }
 
 
 
 
- loadData(){
-    this.mangaInfoService.getMangaInformation(this.mangaTitle).subscribe(data => {
+ loadData(FilterOptions: string[]){
+    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,this.YearOption).subscribe(data => {
       this.mangaData = data;
       if (this.mangaData.data["length"] > 0 ) {
 

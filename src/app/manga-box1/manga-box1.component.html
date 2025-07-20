@@ -16,13 +16,19 @@
   </div>
 
   <div class="filter-options">
-    <select id="genres" name="genres">
+
+    <button (click)="resetFilterOptions()">Reset Filter</button>
+    <select (change)= "handleFilterOption(GenreFilter)" [(ngModel)]="GenreFilter" id="genres" name="genres">
+      <option value="" disabled selected hidden>Genres</option>
+      <option value="off">Don't Filter</option>
       <option value="Romance">Romance</option>
       <option value="Action">Action</option>
       <option value="Harem">Harem</option>
       <option value="Fantasy">Fantasy</option>
     </select>
-    <select id="seasons" name="seasons">
+
+    <select (change)="handleYearOption(YearOption)" [(ngModel)]="YearOption" id="year" name="year">
+      <option value="" disabled selected hidden>Year</option>
       <option value="2025">2025</option>
       <option value="2024">2024</option>
       <option value="2023">2023</option>

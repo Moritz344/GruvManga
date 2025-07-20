@@ -19,6 +19,7 @@ export class MangaDetailsComponent {
   mangaData: any;
 
   handleHomeClick() {
+    // TODO: save last search
     console.log("HOME SWEET HOME");
   }
 
@@ -38,7 +39,7 @@ export class MangaDetailsComponent {
 
 
  loadData(){
-    this.mangaInfoService.getMangaInformation(this.mangaTitle).subscribe(data => {
+    this.mangaInfoService.getMangaInformation(this.mangaTitle,[""],"").subscribe(data => {
       this.mangaData = data;
 
       console.log(data);
