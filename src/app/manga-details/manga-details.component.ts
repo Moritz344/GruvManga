@@ -4,6 +4,7 @@ import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Manga } from '../manga-box1/manga';
 import { MangaServiceService } from '../manga-service.service';
+import { SharedDataService } from '../shared-data.service';
 
 @Component({
   selector: 'app-manga-details',
@@ -20,13 +21,15 @@ export class MangaDetailsComponent {
 
   handleHomeClick() {
     // TODO: save last search
-    console.log("HOME SWEET HOME");
+    console.log("User searched for",this.sharedData.lastSearch);
   }
 
-  constructor(private mangaInfoService: MangaServiceService,private route: ActivatedRoute ) {
+  constructor(private mangaInfoService: MangaServiceService,private route: ActivatedRoute,private sharedData: SharedDataService ) {
 
     this.route.params.subscribe(params => {
-      this.mangaTitle = params["title"];
+      let lastSearch = params["title"];
+      console.log(lastSearch);
+      this.sharedData.lastSearch = lastSearch; // nicht last search sondern last manga
 
       this.loadData();
 
@@ -39,10 +42,9 @@ export class MangaDetailsComponent {
 
 
  loadData(){
-    this.mangaInfoService.getMangaInformation(this.mangaTitle,[""],"").subscribe(data => {
+    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1").subscribe(data => {
       this.mangaData = data;
 
-      console.log(data);
 
       let descriptions = this.mangaData.data[0]["attributes"]["description"] ;
       let descLen = Object.keys(descriptions).length;
@@ -62,7 +64,7 @@ export class MangaDetailsComponent {
           const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
 
           const newManga: Manga = {
-            title: this.mangaTitle,
+            title: this.sharedData.lastSearch,
             description: desc,
             image:imageUrl,
             id:"",

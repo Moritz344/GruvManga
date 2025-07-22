@@ -4,6 +4,9 @@ import { Manga } from './manga';
 import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
+import { SharedDataService } from '../shared-data.service';
+
+// TODO: show activated filters
 
 @Component({
   selector: 'app-manga-box1',
@@ -15,6 +18,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 export class MangaBox1Component {
   // TODO: pages
   mangaData: any;
+  UserInput: any;
 
   mangaTitle = "";
   mangaDesc = "";
@@ -23,17 +27,21 @@ export class MangaBox1Component {
   GenreFilter = "";
   YearOption = "";
 
+  mangaLimit = "20";
+
   FilterOptions: string[] = [];
 
   mangaFace: Manga[] = [];
 
+  showMoreButton = true;
 
   handleClick(value:string){
+    this.showMoreButton = false;
     this.mangaTitle = value;
     console.log("User input:",this.mangaTitle);
 
 
-      this.loadData(this.FilterOptions);
+      this.loadData(this.FilterOptions,this.mangaLimit);
   }
 
   handleYearOption(value: string) {
@@ -42,7 +50,7 @@ export class MangaBox1Component {
   }
 
   handleFilterOption(value: string) {
-    if (value !== "off" && !this.FilterOptions.includes(value) ) {
+    if (!this.FilterOptions.includes(value) && value !== "any") {
       this.GenreFilter = value;
       this.FilterOptions.push(value);
       console.log("Current FilterOptions:",this.FilterOptions)
@@ -52,24 +60,40 @@ export class MangaBox1Component {
 
   resetFilterOptions() {
     this.FilterOptions.length = 0;
-    this.YearOption = "2025";
     console.log("Cleared FilterOptions",this.FilterOptions);
   }
 
+  loadPopularManga(limit: string) {
+    this.showMoreButton = true;
+    this.mangaInfoService.getPopularManga(limit).subscribe(data => {
+      this.loadMangaInfos(data);
+    })
+  }
 
-  constructor(private mangaInfoService: MangaServiceService, ) {
-    this.handleClick("Naruto"); // TODO: change to Popular manga
+  constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
+    if (this.sharedData.lastSearch !== "") {
+      this.handleClick(this.sharedData.lastSearch);
+    }else{
+      this.loadPopularManga("20");
+    }
   }
 
 
+ loadMore() {
+   this.loadPopularManga("40");
+ }
 
+ loadLess() {
+   this.loadPopularManga("20");
 
- loadData(FilterOptions: string[]){
-    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,this.YearOption).subscribe(data => {
+ }
+
+ loadData(FilterOptions: string[],limit: string){
+    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,this.YearOption,limit).subscribe(data => {
       this.mangaData = data;
       if (this.mangaData.data["length"] > 0 ) {
 
-        this.loadMangaInfos();
+        this.loadMangaInfos(data);
 
       }else{
         this.mangaTitle = "No results";
@@ -83,16 +107,16 @@ clearManga() {
   this.mangaFace.splice(0,this.mangaFace.length);
 }
 
- loadMangaInfos() {
+ loadMangaInfos(mangaData: any) {
 
 
 
       this.clearManga();
 
-      for (let i =0;i<this.mangaData.data.length;i++) {
-        let title =  this.mangaData.data[i]["attributes"]["title"];
-        let manga_title = this.mangaData.data[i]["attributes"]["title"]["en"] || Object.values(title)[0];
-        let manga_id = this.mangaData.data[i]["id"];
+      for (let i =0;i<mangaData.data.length;i++) {
+        let title =  mangaData.data[i]["attributes"]["title"];
+        let manga_title = mangaData.data[i]["attributes"]["title"]["en"] || Object.values(title)[0];
+        let manga_id = mangaData.data[i]["id"];
 
 
         this.mangaInfoService.getMangaImageData(manga_id).subscribe((imageData: any) => {

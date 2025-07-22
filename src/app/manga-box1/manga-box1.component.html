@@ -4,7 +4,7 @@
 <div class="display">
 
   <div class="home">
-    <button type="button">Home</button>
+   <button (click)="this.loadPopularManga('20')" type="button"> Home </button>
   </div>
 
   <div class="topbar">
@@ -20,15 +20,20 @@
     <button (click)="resetFilterOptions()">Reset Filter</button>
     <select (change)= "handleFilterOption(GenreFilter)" [(ngModel)]="GenreFilter" id="genres" name="genres">
       <option value="" disabled selected hidden>Genres</option>
-      <option value="off">Don't Filter</option>
+      <option value="any">Any</option>
       <option value="Romance">Romance</option>
       <option value="Action">Action</option>
       <option value="Harem">Harem</option>
       <option value="Fantasy">Fantasy</option>
+      <option value="Drama">Drama</option>
+      <option value="Horror">Horror</option>
+      <option value="Mecha">Mecha</option>
+      <option value="Comedy">Comedy</option>
     </select>
 
     <select (change)="handleYearOption(YearOption)" [(ngModel)]="YearOption" id="year" name="year">
       <option value="" disabled selected hidden>Year</option>
+      <option value="any">Any</option>
       <option value="2025">2025</option>
       <option value="2024">2024</option>
       <option value="2023">2023</option>
@@ -52,6 +57,17 @@
   <br><br><br>
   <strong>{{ manga.title }}</strong>
 
+
 </div>
+
+</div>
+
+<div class="bottom-bar">
+  <div class="switch-page" *ngIf="showMoreButton">
+
+    <button  (click)="loadMore()">Load more</button>
+    <button  (click)="loadLess()"> Load less</button>
+
+  </div>
 
 </div>
