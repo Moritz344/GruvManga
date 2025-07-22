@@ -6,6 +6,8 @@ import { Manga } from '../manga-box1/manga';
 import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
 
+// TODO: show airing,tags,rating,
+
 @Component({
   selector: 'app-manga-details',
   imports: [RouterModule,CommonModule,FormsModule],
@@ -20,7 +22,6 @@ export class MangaDetailsComponent {
   mangaData: any;
 
   handleHomeClick() {
-    // TODO: save last search
     console.log("User searched for",this.sharedData.lastSearch);
   }
 

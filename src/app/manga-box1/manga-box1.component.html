@@ -4,7 +4,7 @@
 <div class="display">
 
   <div class="home">
-   <button (click)="this.loadPopularManga('20')" type="button"> Home </button>
+   <button (click)="this.loadHomeScreen()" type="button"> Home </button>
   </div>
 
   <div class="topbar">
@@ -14,6 +14,7 @@
     <i  class="fas fa-search" ></i>
   </button>
   </div>
+
 
   <div class="filter-options">
 
@@ -44,7 +45,15 @@
 
 </div>
 
+<div class="show-filter">
+  <div *ngFor="let option of FilterOptions" class="filter-block">
+    <button (click)="deleteFilterOption(option)"class="rm-filter">x</button>
+    <p>{{ option }} </p>
+  </div>
+</div>
+
 <div class="manga-field">
+
 
 <div *ngFor="let manga of mangaFace"  >
 

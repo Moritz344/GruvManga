@@ -17,8 +17,14 @@ export class MangaServiceService {
 
   }
 
-    getPopularManga(limit:string) {
-        const url = `${this.baseUrl}/manga?limit=${limit}&order[followedCount]=desc`;
+
+    getPopularManga(limit:string,year: string) {
+        const params = new URLSearchParams();
+        if ( year !== "" ) {
+            params.append("year",year);
+        }
+        params.append("limit",limit);
+        const url = `${this.baseUrl}/manga?&${params.toString()}&order[followedCount]=desc`;
         return this.http.get(url);
 
 

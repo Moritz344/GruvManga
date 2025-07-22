@@ -41,13 +41,14 @@ export class MangaBox1Component {
     console.log("User input:",this.mangaTitle);
 
 
-      this.loadData(this.FilterOptions,this.mangaLimit);
+      this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption);
   }
 
   handleYearOption(value: string) {
     this.YearOption = value;
     console.log(this.YearOption);
   }
+
 
   handleFilterOption(value: string) {
     if (!this.FilterOptions.includes(value) && value !== "any") {
@@ -58,38 +59,67 @@ export class MangaBox1Component {
     }
   }
 
+  deleteFilterOption(option: string) {
+    const index = this.FilterOptions.indexOf(option);
+    this.FilterOptions.splice(index,1);
+    console.log(this.FilterOptions);
+  }
+
   resetFilterOptions() {
     this.FilterOptions.length = 0;
     console.log("Cleared FilterOptions",this.FilterOptions);
   }
 
-  loadPopularManga(limit: string) {
+  loadPopularManga(limit: string,year: string) {
     this.showMoreButton = true;
-    this.mangaInfoService.getPopularManga(limit).subscribe(data => {
+    this.mangaInfoService.getPopularManga(limit,year).subscribe(data => {
       this.loadMangaInfos(data);
     })
   }
 
+  loadLastYearManga() {
+    // popular manga last year
+    this.loadPopularManga("4","2024");
+  }
+
+  loadNewManga() {
+    // New manga this year
+    this.loadData(this.FilterOptions,"4","2025");
+  }
+
   constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
     if (this.sharedData.lastSearch !== "") {
+      this.clearManga();
       this.handleClick(this.sharedData.lastSearch);
     }else{
-      this.loadPopularManga("20");
+      this.loadHomeScreen();
     }
   }
 
 
  loadMore() {
-   this.loadPopularManga("40");
+   this.loadPopularManga("40","");
  }
 
  loadLess() {
-   this.loadPopularManga("20");
+   this.loadPopularManga("20","");
 
  }
 
- loadData(FilterOptions: string[],limit: string){
-    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,this.YearOption,limit).subscribe(data => {
+  loadHomeScreen() {
+
+      this.mangaTitle = "";
+      this.sharedData.lastSearch = "";
+
+      this.loadPopularManga("4","");
+      this.loadNewManga();
+      this.loadLastYearManga();
+  }
+
+
+ loadData(FilterOptions: string[],limit: string,year: string){
+    this.clearManga();
+    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit).subscribe(data => {
       this.mangaData = data;
       if (this.mangaData.data["length"] > 0 ) {
 
@@ -109,9 +139,8 @@ clearManga() {
 
  loadMangaInfos(mangaData: any) {
 
+   try {
 
-
-      this.clearManga();
 
       for (let i =0;i<mangaData.data.length;i++) {
         let title =  mangaData.data[i]["attributes"]["title"];
@@ -120,7 +149,7 @@ clearManga() {
 
 
         this.mangaInfoService.getMangaImageData(manga_id).subscribe((imageData: any) => {
-          const filename = imageData.data[0].attributes.fileName || "Kein Bild";
+          var filename = imageData.data[0].attributes.fileName || "Kein Bild";
           const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
 
           const newManga: Manga = {
@@ -139,7 +168,9 @@ clearManga() {
 
         //console.log(this.mangaFace);
       }
-
+   }catch(err){
+     console.log(err);
+   }
 
 
 
