@@ -5,12 +5,12 @@ import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
-
+import { NgOptimizedImage } from '@angular/common';
 // TODO: show activated filters
 
 @Component({
   selector: 'app-manga-box1',
-  imports: [RouterModule,CommonModule,FormsModule],
+  imports: [RouterModule,CommonModule,FormsModule,NgOptimizedImage],
   templateUrl: './manga-box1.component.html',
   styleUrl: './manga-box1.component.css',
   providers: [MangaServiceService]
@@ -28,9 +28,11 @@ export class MangaBox1Component {
   YearOption = "";
 
   mangaLimit = "20";
+  imageLoaded = false;
 
   FilterOptions: string[] = [];
-
+  GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
+  YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016"];
   mangaFace: Manga[] = [];
 
   showMoreButton = true;
@@ -77,14 +79,14 @@ export class MangaBox1Component {
     })
   }
 
-  loadLastYearManga() {
+  loadLastYearManga(limit: string) {
     // popular manga last year
-    this.loadPopularManga("4","2024");
+    this.loadPopularManga(limit,"2024");
   }
 
-  loadNewManga() {
+  loadNewManga(limit: string) {
     // New manga this year
-    this.loadData(this.FilterOptions,"4","2025");
+    this.loadData(this.FilterOptions,limit,"2025");
   }
 
   constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
@@ -98,11 +100,13 @@ export class MangaBox1Component {
 
 
  loadMore() {
+   this.clearManga();
    this.loadPopularManga("40","");
  }
 
  loadLess() {
-   this.loadPopularManga("20","");
+   this.clearManga();
+   this.loadHomeScreen();
 
  }
 
@@ -111,9 +115,9 @@ export class MangaBox1Component {
       this.mangaTitle = "";
       this.sharedData.lastSearch = "";
 
-      this.loadPopularManga("4","");
-      this.loadNewManga();
-      this.loadLastYearManga();
+      this.loadPopularManga("9","");
+      this.loadNewManga("6");
+      this.loadLastYearManga("6");
   }
 
 

@@ -20,6 +20,8 @@ export class MangaDetailsComponent {
   mangaTitle: any;
   mangaDetail: Manga[] = [];
   mangaData: any;
+  imageLoaded = false;
+  tagArray: string[] = [];
 
   handleHomeClick() {
     console.log("User searched for",this.sharedData.lastSearch);
@@ -46,6 +48,15 @@ export class MangaDetailsComponent {
     this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1").subscribe(data => {
       this.mangaData = data;
 
+      for (let i=0;i<data.data.length;i++) {
+        let tags = data.data[i]["attributes"]["tags"];
+        for (let x=0;x<tags.length;x++) {
+          let tag = tags[x]["attributes"]["name"]["en"] || Object.values(tags)[0];
+          this.tagArray.push(tag);
+        }
+      }
+
+      console.log(data);
 
       let descriptions = this.mangaData.data[0]["attributes"]["description"] ;
       let descLen = Object.keys(descriptions).length;

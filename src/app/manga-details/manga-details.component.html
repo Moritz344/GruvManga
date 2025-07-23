@@ -6,16 +6,19 @@
   </div>
 
   <div class="topblock" *ngFor="let manga of mangaDetail">
-
-
-    <img [src]="manga.image" width="300" height="300">
-
     <div class="sub-block">
+    <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="300" height="300">
+    <div class="text-content">
       <strong id="title">{{ manga.title }}</strong>
       <p> {{ manga.description }}</p>
-
     </div>
 
+    </div>
+    <div class="tags">
+
+        <p *ngFor="let tag of tagArray" class="tag-block"> {{ tag }}</p>
+
+    </div>
   </div>
 
 </div>
