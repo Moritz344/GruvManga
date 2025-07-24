@@ -61,10 +61,15 @@ export class MangaServiceService {
         );
     }
 
+    getMangaStatistics(manga_id: string) {
+      const url = `${this.baseUrl}/statistics/manga/${manga_id}` ;
+      return this.http.get(url);
+    }
+
 
     getMangaImageData(manga_id: string) {
 
-      const url = `https://api.mangadex.org/cover?manga[]=${manga_id}` ;
+      const url = `${this.baseUrl}/cover?manga[]=${manga_id}` ;
       return this.http.get(url);
     }
 

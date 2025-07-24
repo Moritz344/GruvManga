@@ -33,6 +33,11 @@
     </select>
 
   </div>
+  <div class="switch-page" >
+
+    <button  (click)="loadMore()">Load more</button>
+    <button  (click)="loadLess()"> Load less</button>
+  </div>
 
 </div>
 
@@ -52,7 +57,7 @@
   [routerLink]="['/manga',  manga.title ]"
   >
 
-  <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="200" height="250">
+  <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="200" height="250" alt="image">
 
   </div>
   <br>
@@ -63,12 +68,4 @@
 
 </div>
 
-<div class="bottom-bar">
-  <div class="switch-page" *ngIf="showMoreButton">
 
-    <button  (click)="loadMore()">Load more</button>
-    <button  (click)="loadLess()"> Load less</button>
-
-  </div>
-
-</div>

@@ -4,4 +4,7 @@ export interface Manga{
     image: string;
     id: string;
     fileName: string;
+    stat: string;
+    year: string;
+    content: string;
 }

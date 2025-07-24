@@ -5,12 +5,11 @@ import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
-import { NgOptimizedImage } from '@angular/common';
 // TODO: show activated filters
 
 @Component({
   selector: 'app-manga-box1',
-  imports: [RouterModule,CommonModule,FormsModule,NgOptimizedImage],
+  imports: [RouterModule,CommonModule,FormsModule],
   templateUrl: './manga-box1.component.html',
   styleUrl: './manga-box1.component.css',
   providers: [MangaServiceService]
@@ -81,12 +80,15 @@ export class MangaBox1Component {
 
   loadLastYearManga(limit: string) {
     // popular manga last year
-    this.loadPopularManga(limit,"2024");
+    var date = new Date().getFullYear() - 1;
+    let stringDate = date.toString();
+    this.loadPopularManga(limit,stringDate);
   }
 
   loadNewManga(limit: string) {
     // New manga this year
-    this.loadData(this.FilterOptions,limit,"2025");
+    var date = new Date().getFullYear().toString();
+    this.loadData(this.FilterOptions,limit,date);
   }
 
   constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
@@ -148,6 +150,7 @@ clearManga() {
 
       for (let i =0;i<mangaData.data.length;i++) {
         let title =  mangaData.data[i]["attributes"]["title"];
+        this.sharedData.desc =  mangaData.data[i]["attributes"]["description"];
         let manga_title = mangaData.data[i]["attributes"]["title"]["en"] || Object.values(title)[0];
         let manga_id = mangaData.data[i]["id"];
 
@@ -162,8 +165,12 @@ clearManga() {
             image:imageUrl,
             id:manga_id,
             fileName: filename,
+            stat: "",
+            year: "",
+            content: "",
           };
         this.mangaFace.push(newManga);
+        this.sharedData.addManga(newManga);
 
 
         })
