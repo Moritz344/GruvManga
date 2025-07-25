@@ -1,10 +1,11 @@
 
 <div class="display">
 
+  <div class="topbar">
   <div class="home">
     <button type="button" [routerLink]="['',  ]" (click)="handleHomeClick()">Home</button>
   </div>
-
+  </div>
   <div class="topblock" *ngFor="let manga of mangaDetail">
     <div class="sub-block">
     <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="250" height="300">
@@ -23,11 +24,17 @@
     </div>
     <div class="tags">
 
-        <p *ngFor="let tag of tagArray" class="tag-block"> {{ tag }}</p>
+        <p *ngFor="let tag of tagArray | slice:0:13 " class="tag-block"> {{ tag }}</p>
 
     </div>
     <app-manga-graph></app-manga-graph>
 
+  </div>
+
+  <div class="bottom-block">
+    <div class="similar-detail" *ngFor="let manga of SimilarManga">
+      <p > {{ manga }} </p>
+    </div>
   </div>
 
 </div>

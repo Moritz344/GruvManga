@@ -67,6 +67,9 @@ export class MangaServiceService {
     }
 
 
+
+
+
     getMangaImageData(manga_id: string) {
 
       const url = `${this.baseUrl}/cover?manga[]=${manga_id}` ;

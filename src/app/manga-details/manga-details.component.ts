@@ -7,7 +7,7 @@ import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
 import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
 
-// TODO: show airing,rating
+// TODO: show similar manga
 
 @Component({
   selector: 'app-manga-details',
@@ -23,6 +23,7 @@ export class MangaDetailsComponent {
   mangaData: any;
   imageLoaded = false;
   tagArray: string[] = [];
+  SimilarManga: string[] = [];
 
   handleHomeClick() {
     console.log("User searched for",this.sharedData.lastSearch);
@@ -40,6 +41,7 @@ export class MangaDetailsComponent {
       console.log("mangas",this.sharedData.getMangaList);
       console.log("mangas",this.sharedData.mangas);
 
+      this.getSimiliarMangas();
 
     })
 
@@ -47,6 +49,20 @@ export class MangaDetailsComponent {
 
   }
 
+
+
+  getSimiliarMangas() {
+    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,this.tagArray,"","10").subscribe(data => {
+      console.log(this.tagArray);
+      console.log("hier",data);
+
+      for (let i=1;i<data.data.length;i++) {
+        let name = data.data[i]["attributes"]["title"]["en"];
+        this.SimilarManga.push(name);
+      }
+    })
+
+  }
 
  loadData(){
     this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1").subscribe(data => {
@@ -96,6 +112,10 @@ export class MangaDetailsComponent {
           const filename = imageData.data[0].attributes.fileName || "Kein Bild";
           const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
 
+          if (this.sharedData.lastSearch.length >= 50) {
+            this.sharedData.lastSearch = this.sharedData.lastSearch.slice(0,100) + "...";
+
+          }
 
           const newManga: Manga = {
             title: this.sharedData.lastSearch,
