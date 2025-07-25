@@ -3,8 +3,8 @@
 
 <div class="display">
 
-  <div class="home">
-   <button (click)="this.loadHomeScreen()" type="button"> Home </button>
+    <div class="home">
+      <button (click)="this.loadHomeScreen()" type="button"> Home </button>
   </div>
 
   <div class="topbar">
@@ -22,7 +22,7 @@
     <select  (change)= "handleFilterOption(GenreFilter)" [(ngModel)]="GenreFilter" id="genres" name="genres">
       <option value="" disabled selected hidden>Genres</option>
       <option value="any">Any</option>
-      <option *ngFor="let option of GenreOptions" [value] = "option" >{{ option }}</option>
+      <option *ngFor="let option of GenreOptions"  [value] = "option" >{{ option }}</option>
 
     </select>
 
@@ -44,7 +44,11 @@
 <div class="show-filter">
   <div *ngFor="let option of FilterOptions" class="filter-block">
     <button (click)="deleteFilterOption(option)"class="rm-filter">x</button>
-    <p>{{ option }} </p>
+    <strong>{{ option }} </strong>
+  </div >
+  <div class="year-field" *ngIf="YearOption !== '' && YearOption !== 'any' ">
+    <button class="year-button" (click)="deleteYearOption(YearOption)">x</button>
+    <strong class="year-block"*ngIf="YearOption !== 'any'">{{ YearOption }} </strong>
   </div>
 </div>
 
@@ -63,9 +67,7 @@
   <br>
   <strong class="manga-title" >{{ manga.title }}</strong>
 
-
 </div>
 
 </div>
-
 

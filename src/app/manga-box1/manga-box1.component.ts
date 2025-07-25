@@ -66,6 +66,10 @@ export class MangaBox1Component {
     console.log(this.FilterOptions);
   }
 
+  deleteYearOption(option: string) {
+    this.YearOption = "any";
+  }
+
   resetFilterOptions() {
     this.FilterOptions.length = 0;
     console.log("Cleared FilterOptions",this.FilterOptions);
@@ -118,7 +122,7 @@ export class MangaBox1Component {
       this.sharedData.lastSearch = "";
 
       this.loadPopularManga("9","");
-      this.loadNewManga("6");
+      this.loadNewManga("9");
       this.loadLastYearManga("6");
   }
 
