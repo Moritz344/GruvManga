@@ -37,7 +37,7 @@ export class MangaGraphComponent {
 
     this.chartOptions = {
       animationEnabled: true,
-      width: 1300,
+      width: 1400,
       height: 300,
       backgroundColor: "#242424",
       title: {

@@ -29,6 +29,11 @@ export class MangaBox1Component {
   mangaLimit = "20";
   imageLoaded = false;
 
+  seite = "0";
+  currentSeite = 0;
+  totalNumber: number = 0;
+  totalArray = Array.from({ length: 200 },(_,i) => i+1)
+
   FilterOptions: string[] = [];
   GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
   YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016"];
@@ -42,7 +47,7 @@ export class MangaBox1Component {
     console.log("User input:",this.mangaTitle);
 
 
-      this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption);
+      this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption,this.seite);
   }
 
   handleYearOption(value: string) {
@@ -92,7 +97,7 @@ export class MangaBox1Component {
   loadNewManga(limit: string) {
     // New manga this year
     var date = new Date().getFullYear().toString();
-    this.loadData(this.FilterOptions,limit,date);
+    this.loadData(this.FilterOptions,limit,date,this.seite);
   }
 
   constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
@@ -126,13 +131,24 @@ export class MangaBox1Component {
       this.loadLastYearManga("6");
   }
 
-
- loadData(FilterOptions: string[],limit: string,year: string){
+  loadMoreMangas() {
+    // NOTE: total -> totale anzahl an mangas für suche -> offset = seite
     this.clearManga();
-    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit).subscribe(data => {
+    this.currentSeite += 24;
+
+    this.loadData(this.FilterOptions,"23","any",this.currentSeite.toString());
+    console.log("test");
+  }
+
+ loadData(FilterOptions: string[],limit: string,year: string,offset: string){
+    this.clearManga();
+    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset).subscribe(data => {
       this.mangaData = data;
+      console.log(data);
       if (this.mangaData.data["length"] > 0 ) {
 
+        this.totalNumber = data.total;
+        this.totalArray = Array.from({ length: this.totalNumber },(_,i) => i+1)
         this.loadMangaInfos(data);
 
       }else{
@@ -146,6 +162,7 @@ export class MangaBox1Component {
 clearManga() {
   this.mangaFace.splice(0,this.mangaFace.length);
 }
+
 
  loadMangaInfos(mangaData: any) {
 

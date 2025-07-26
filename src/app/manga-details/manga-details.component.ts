@@ -3,6 +3,7 @@ import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Manga } from '../manga-box1/manga';
+import { SimilarManga } from '../manga-box1/manga';
 import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
 import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
@@ -20,10 +21,14 @@ import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
 export class MangaDetailsComponent {
   mangaTitle: any;
   mangaDetail: Manga[] = [];
+  similarManga: SimilarManga[] = [];
   mangaData: any;
   imageLoaded = false;
   tagArray: string[] = [];
   SimilarManga: string[] = [];
+  SimilarMangaImages: string[] = [];
+
+
 
   handleHomeClick() {
     console.log("User searched for",this.sharedData.lastSearch);
@@ -43,29 +48,41 @@ export class MangaDetailsComponent {
 
       this.getSimiliarMangas();
 
+
     })
 
 
 
   }
-
 
 
   getSimiliarMangas() {
-    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,this.tagArray,"","10").subscribe(data => {
-      console.log(this.tagArray);
-      console.log("hier",data);
+    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,this.tagArray,"","10","0").subscribe(data => {
 
       for (let i=1;i<data.data.length;i++) {
+        let manga_id = data.data[i]["id"];
         let name = data.data[i]["attributes"]["title"]["en"];
-        this.SimilarManga.push(name);
-      }
-    })
 
+         this.mangaInfoService.getMangaImageData(manga_id).subscribe((imageData: any) => {
+           const filename = imageData.data[0].attributes.fileName || "Kein Bild";
+           const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
+            this.SimilarMangaImages.push(imageUrl);
+
+
+          const newManga: SimilarManga = {
+            title: name,
+            image: imageUrl,
+          };
+          this.similarManga.push(newManga);
+
+      });
+    }
+
+    });
   }
 
  loadData(){
-    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1").subscribe(data => {
+    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1","0").subscribe(data => {
       this.mangaData = data;
 
 
@@ -82,10 +99,9 @@ export class MangaDetailsComponent {
       let descriptions = this.mangaData.data[0]["attributes"]["description"] ;
       let descLen = Object.keys(descriptions).length;
       let status = this.mangaData.data[0]["attributes"]["status"];
-      let mangaYear = this.mangaData.data[0]["attributes"]["year"];
+      let mangaYear = this.mangaData.data[0]["attributes"]["year"] ;
       let contentRating = this.mangaData.data[0]["attributes"]["contentRating"];
 
-      console.log(contentRating);
 
 
       if (descLen >= 1) {

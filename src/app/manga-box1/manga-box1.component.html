@@ -69,5 +69,22 @@
 
 </div>
 
+<button (click)="loadMoreMangas()">{{ this.currentSeite }}</button>
 </div>
 
+<div class="seiten"  >
+  <button class="page-prev" ><</button>
+  <button class="page-number" >0</button>
+  <button class="page-number" >1</button>
+  <button class="page-number" >2</button>
+  <button class="page-number" >3</button>
+  <button class="page-number" >4</button>
+  <button class="page-number" >5</button>
+  <button class="page-number" >6</button>
+  <button class="page-number" >7</button>
+  <button class="page-number" >8</button>
+  <button class="page-number" >9</button>
+  <button class="page-number" >10</button>
+  <button class="page-number" >{{ this.totalNumber }}</button>
+  <button class="page-next" >></button>
+</div>

@@ -14,7 +14,7 @@
     <div class="other-block">
       <div *ngFor="let manga of mangaDetail" class="other-info">
         <p class="status">{{ manga.stat }}</p>
-        <p class="year">{{ manga.year }}</p>
+        <p *ngIf="manga.year !== null"class="year">{{ manga.year }}</p>
         <p class="content-rating">{{ manga.content }}</p>
       </div>
     </div >
@@ -24,17 +24,20 @@
     </div>
     <div class="tags">
 
-        <p *ngFor="let tag of tagArray | slice:0:13 " class="tag-block"> {{ tag }}</p>
+        <p *ngFor="let tag of tagArray | slice:0:12 " class="tag-block"> {{ tag }}</p>
 
     </div>
     <app-manga-graph></app-manga-graph>
 
   </div>
+  <div class="rec-text" *ngIf="similarManga.length >= 1">
+    <p>Recommendations </p>
+  </div>
 
-  <div class="bottom-block">
-    <div class="similar-detail" *ngFor="let manga of SimilarManga">
-      <p > {{ manga }} </p>
-    </div>
+  <div class="bottom-block" *ngIf="similarManga.length >= 1">
+    <div *ngFor="let manga of similarManga" class="manga-block">
+    <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="250" height="300">
+      <strong > {{ manga.title }} </strong>
   </div>
 
 </div>

@@ -41,7 +41,7 @@ export class MangaServiceService {
         );
     }
 
-    getMangaInformation(mangaTitle: string, FilterOptions: string[],year: string,limit: string): Observable<any> {
+    getMangaInformation(mangaTitle: string, FilterOptions: string[],year: string,limit: string,offset: string): Observable<any> {
         return this.getFilterUUIDs(FilterOptions).pipe(
             switchMap((includedTagIDs: string[]) => {
                 const params = new URLSearchParams();
@@ -53,7 +53,8 @@ export class MangaServiceService {
                 if (year !== "any" && year !== "" ) {
                     params.append("year",year);
                 }
-                const url = `${this.baseUrl}/manga?title=${encodeURIComponent(mangaTitle)}&${params.toString()}`;
+                console.log("offset",offset);
+                const url = `${this.baseUrl}/manga?offset=${offset}&title=${encodeURIComponent(mangaTitle)}&${params.toString()}`;
                 console.log(url);
                 return this.http.get(url);
 

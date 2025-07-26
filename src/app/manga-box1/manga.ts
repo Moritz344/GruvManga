@@ -8,3 +8,8 @@ export interface Manga{
     year: string;
     content: string;
 }
+
+export interface SimilarManga{
+    title: string;
+    image: string;
+}
