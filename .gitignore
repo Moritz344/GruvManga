@@ -11,8 +11,6 @@
 /.angular/cache/
 /.angular/
 
-# Environment files (if you use local overrides)
-/src/environments/*.local.ts
 
 # System Files
 .DS_Store
@@ -37,8 +35,6 @@ yarn-error.log*
 ehthumbs.db
 Desktop.ini
 
-# Compiled CSS (if you're using SCSS manually)
-/src/**/*.css
 
 # NPM Cache
 .npm/
