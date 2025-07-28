@@ -1,0 +1,81 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  /* Gruvbox Dark Palette */
+  --bg: #282828;
+  --bg-soft: #3c3836;
+  --fg: #ebdbb2;
+  --fg-soft: #a89984;
+
+  --red: #cc241d;
+  --green: #98971a;
+  --yellow: #d79921;
+  --blue: #458588;
+  --purple: #b16286;
+  --aqua: #689d6a;
+  --orange: #d65d0e;
+
+  --accent: var(--blue);
+}
+
+select{
+  max-width: 110px;
+  background-color: var(--bg-soft);
+  color: var(--fg);
+  border: 1px solid var(--accent);
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 15px;
+  transition: all 0.3s ease-out;
+
+}
+select:hover,
+select.focus{
+  background-color: var(--bg);
+  color: #fff;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+
+button {
+  background-color: var(--bg-soft);
+  color: var(--fg);
+  border: 1px solid var(--accent);
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease-out;
+}
+
+
+button:hover,
+button.focus{
+  background-color: var(--bg);
+  color: #fff;
+}
+
+
+input {
+  background-color: var(--bg-soft);
+  color: var(--fg);
+  border: 1px solid var(--fg-soft);
+  padding: 8px;
+  border-radius: 4px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+

@@ -1,0 +1,56 @@
+
+
+
+.hover-card{
+  position: absolute;
+  background: var(--bg);
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+  pointer-events: none;
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+
+.hover-card .status{
+    display: inline-flex;
+    gap:10px;
+    background-color: var(--orange);
+    width: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0px;
+}
+
+.hover-card .year{
+    display: inline-flex;
+    gap:10px;
+    background-color: var(--purple);
+    width: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0px;
+    margin-left: 10px;
+}
+.chapter-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+  margin: 0;
+}
+.star{
+  margin-bottom: 5px;
+}
+
+.hover-card .content{
+    display: inline-flex;
+    gap:10px;
+    background-color: var(--green);
+    width: auto;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0px;
+    margin-left: 10px;
+}
