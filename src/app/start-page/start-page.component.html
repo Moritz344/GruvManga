@@ -1,0 +1,39 @@
+
+
+<div class="topbar-container">
+
+  <div class="topbar-items">
+    <a target="_blank" alt="github" href="https://github.com/Moritz344">
+      <img src="assets/images/github.png"  alt="github" width="50" height="50">
+    </a>
+    <a target="_blank" alt="github" href="https://ko-fi.com/moritz344">
+      <img class="kofi" src="assets/images/kofi.png"  alt="github" width="30" height="30">
+    </a>
+  </div>
+</div>
+
+
+<div class="display">
+  <div class="front-container">
+
+    <div class="elements" >
+      <h1>Browse Mangas</h1>
+      <p>Browse your favourite mangas and view information about them</p>
+      <button [routerLink]="['/manga/suche',  ]">Start</button>
+    </div>
+
+  </div>
+
+  <div class="manga-container">
+
+    <div *ngFor="let image of imageArray" class="manga-block">
+
+      <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="image" width="200" height="250">
+
+    </div>
+
+
+  </div>
+
+
+</div>
