@@ -3,7 +3,7 @@
 
   <div class="topbar">
   <div class="home">
-    <button type="button" [routerLink]="['',  ]" (click)="handleHomeClick()">Home</button>
+    <button type="button" [routerLink]="['/manga/suche',]" (click)="handleHomeClick()">Home</button>
   </div>
   </div>
   <div class="topblock" *ngFor="let manga of mangaDetail">
@@ -28,6 +28,7 @@
 
     </div>
     <app-manga-graph></app-manga-graph>
+
 
   </div>
   <div class="rec-text" *ngIf="similarManga.length >= 1">
