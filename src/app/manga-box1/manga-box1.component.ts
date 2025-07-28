@@ -5,11 +5,13 @@ import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
-// TODO: show activated filters
+import { MangaHoverCardComponent } from '../manga-hover-card/manga-hover-card.component';
+
+// TODO: show box when hover
 
 @Component({
   selector: 'app-manga-box1',
-  imports: [RouterModule,CommonModule,FormsModule],
+  imports: [RouterModule,CommonModule,FormsModule,MangaHoverCardComponent],
   templateUrl: './manga-box1.component.html',
   styleUrl: './manga-box1.component.css',
   providers: [MangaServiceService]
@@ -29,10 +31,19 @@ export class MangaBox1Component {
   mangaLimit = "20";
   imageLoaded = false;
 
+
+  hoveredManga: any = null;
+  hoverX: number = 0;
+  hoverY: number = 0;
+
   seite = "0";
-  currentSeite = 0;
+  currentSeite = "";
   totalNumber: number = 0;
-  totalArray = Array.from({ length: 200 },(_,i) => i+1)
+  totalArray = Array.from({ length: 10 },(_,i) => i+1)
+  activeSite = 0;
+  startSite = 0;
+
+  fullChapter: number = 0;
 
   FilterOptions: string[] = [];
   GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
@@ -55,6 +66,28 @@ export class MangaBox1Component {
     console.log(this.YearOption);
   }
 
+  showHoverCard(manga: any,event: MouseEvent) {
+    this.hoveredManga = manga;
+    this.updateHoverPosition(event,"");
+  }
+
+  updateHoverPosition(event: MouseEvent,manga: any) {
+    const index = this.mangaFace.indexOf(manga);
+    if (index === 5 || index === 6 || index === 12 || index === 13 || index === 19 || index == 20) {
+      this.hoverX = event.pageX - 540
+      this.hoverY = event.pageY - 20
+
+    }else{
+      this.hoverX = event.pageX + 40
+      this.hoverY = event.pageY - 20
+
+    }
+
+  }
+
+  hideHoverCard() {
+    this.hoveredManga = null;
+  }
 
   handleFilterOption(value: string) {
     if (!this.FilterOptions.includes(value) && value !== "any") {
@@ -107,6 +140,8 @@ export class MangaBox1Component {
     }else{
       this.loadHomeScreen();
     }
+
+
   }
 
 
@@ -144,11 +179,9 @@ export class MangaBox1Component {
     this.clearManga();
     this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset).subscribe(data => {
       this.mangaData = data;
-      console.log(data);
       if (this.mangaData.data["length"] > 0 ) {
 
         this.totalNumber = data.total;
-        this.totalArray = Array.from({ length: this.totalNumber },(_,i) => i+1)
         this.loadMangaInfos(data);
 
       }else{
@@ -159,43 +192,111 @@ export class MangaBox1Component {
 
   }
 
+  updateTotalArray() {
+  if (this.activeSite >= this.startSite + 10) {
+    this.startSite += 10;
+  }
+
+  if (this.activeSite < this.startSite && this.activeSite !== 1) {
+    this.startSite -= 10;
+    if (this.startSite < 0) this.startSite = 0;
+  }else if (this.activeSite === 1) {
+    this.startSite = 1;
+  }
+
+  this.totalArray = Array.from({ length: 10 }, (_, i) => i + this.startSite);
+  }
+
 clearManga() {
   this.mangaFace.splice(0,this.mangaFace.length);
+
+  this.updateTotalArray();
 }
 
+
+  loadPage(page: number) {
+
+    let pageNumber = page.toString();
+    this.currentSeite = page.toString();
+    this.activeSite = page;
+    this.loadData(this.FilterOptions,"20","any",pageNumber);
+  }
+
+  loadNextPage() {
+    this.currentSeite = (Number(this.currentSeite) + 1).toString();
+
+    this.activeSite = Number(this.currentSeite );
+    console.log("active site:",this.activeSite);
+    console.log(this.FilterOptions);
+    this.loadData(this.FilterOptions,"20","any",this.currentSeite );
+    console.log(this.currentSeite);
+  }
+
+  loadPrevPage() {
+    if ( this.currentSeite >= "1") {
+      console.log("LOAD PREVIOUS PAGE");
+      this.currentSeite = (Number(this.currentSeite) - 1).toString();
+
+      this.activeSite = Number(this.currentSeite );
+      this.loadData(this.FilterOptions,"20","any",this.currentSeite );
+    }
+
+  }
 
  loadMangaInfos(mangaData: any) {
 
    try {
 
-
       for (let i =0;i<mangaData.data.length;i++) {
         let title =  mangaData.data[i]["attributes"]["title"];
         this.sharedData.desc =  mangaData.data[i]["attributes"]["description"];
+        let desc =  mangaData.data[i]["attributes"]["description"]["en"];
         let manga_title = mangaData.data[i]["attributes"]["title"]["en"] || Object.values(title)[0];
         let manga_id = mangaData.data[i]["id"];
+        let manga_status = mangaData.data[i]["attributes"]["status"];
+        let mangaYear = mangaData.data[i]["attributes"]["year"];
+        let contentRating = mangaData.data[i]["attributes"]["contentRating"];
+        let chapterAmount = mangaData.data[i]["attributes"]["lastChapter"];
+
+        //console.log(chapterAmount);
+
+
+        this.mangaInfoService.getMangaChapters(manga_id).subscribe((chapterData: any) => {
+          if (chapterData.data.length >= 1) {
+            var chapters = chapterData.data[chapterData.data.length - 1]["attributes"]["chapter"] || "";
+          }
+
+      this.mangaInfoService.getMangaStatistics(manga_id).subscribe((data: any) => {
+        const mangaRating = Number(data.statistics[manga_id]["rating"]["average"]).toFixed(1);
 
 
         this.mangaInfoService.getMangaImageData(manga_id).subscribe((imageData: any) => {
           var filename = imageData.data[0].attributes.fileName || "Kein Bild";
           const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
 
+
+
+
           const newManga: Manga = {
             title:manga_title,
-            description: "",
+            description: desc,
             image:imageUrl,
             id:manga_id,
             fileName: filename,
-            stat: "",
-            year: "",
-            content: "",
+            stat: manga_status,
+            year: mangaYear,
+            content: contentRating,
+            chapter: chapters,
+            rating: mangaRating.toString(),
           };
         this.mangaFace.push(newManga);
         this.sharedData.addManga(newManga);
 
 
-        })
 
+        })
+      })
+        });
 
 
         //console.log(this.mangaFace);

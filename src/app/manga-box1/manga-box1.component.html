@@ -55,7 +55,8 @@
 <div class="manga-field">
 
 
-<div *ngFor="let manga of mangaFace"  >
+<div *ngFor="let manga of mangaFace" (mouseenter)="showHoverCard(manga, $event)" (mousemove)="updateHoverPosition($event,manga)" (mouseleave)="hideHoverCard()"  >
+
 
   <div class="manga-block" *ngIf="mangaFace && mangaFace.length"
   [routerLink]="['/manga',  manga.title ]"
@@ -69,22 +70,18 @@
 
 </div>
 
-<button (click)="loadMoreMangas()">{{ this.currentSeite }}</button>
-</div>
+  <app-manga-hover-card
+    *ngIf="hoveredManga"
+    [manga]="hoveredManga"
+    [x]="hoverX"
+    [y]="hoverY">
+ </app-manga-hover-card>
 
-<div class="seiten"  >
-  <button class="page-prev" ><</button>
-  <button class="page-number" >0</button>
-  <button class="page-number" >1</button>
-  <button class="page-number" >2</button>
-  <button class="page-number" >3</button>
-  <button class="page-number" >4</button>
-  <button class="page-number" >5</button>
-  <button class="page-number" >6</button>
-  <button class="page-number" >7</button>
-  <button class="page-number" >8</button>
-  <button class="page-number" >9</button>
-  <button class="page-number" >10</button>
-  <button class="page-number" >{{ this.totalNumber }}</button>
-  <button class="page-next" >></button>
+</div>
+<div class="seiten"  *ngIf="mangaFace.length >= 5">
+  <button class="page-prev" (click)="loadPrevPage()"><</button>
+  <button class="page-number" *ngIf=""(click)="loadPage(1)">1</button>
+  <button class="page-number" [ngClass]="{ 'active-button': page === activeSite}" (click)="loadPage(page)" *ngFor="let page of totalArray" > {{ page }}</button>
+  <button class="page-number"  >{{ this.totalNumber }}</button>
+  <button class="page-next" (click)="loadNextPage()">></button>
 </div>

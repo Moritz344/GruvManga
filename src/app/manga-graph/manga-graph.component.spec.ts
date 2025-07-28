@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MangaGraphComponent } from './manga-graph.component';
 
 describe('MangaGraphComponent', () => {

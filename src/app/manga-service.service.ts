@@ -24,7 +24,7 @@ export class MangaServiceService {
             params.append("year",year);
         }
         params.append("limit",limit);
-        const url = `${this.baseUrl}/manga?&${params.toString()}&order[followedCount]=desc`;
+        const url = `${this.baseUrl}/manga?limit=${encodeURIComponent(limit)}&order[followedCount]=desc&${params.toString()}`;
         return this.http.get(url);
 
 
@@ -69,10 +69,13 @@ export class MangaServiceService {
 
 
 
+    getMangaChapters(mangaId: string,) {
+      const url = `${this.baseUrl}/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=asc`;
+      return this.http.get(url);
+    }
 
 
     getMangaImageData(manga_id: string) {
-
       const url = `${this.baseUrl}/cover?manga[]=${manga_id}` ;
       return this.http.get(url);
     }

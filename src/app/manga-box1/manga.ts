@@ -7,6 +7,8 @@ export interface Manga{
     stat: string;
     year: string;
     content: string;
+    chapter: string;
+    rating: string;
 }
 
 export interface SimilarManga{

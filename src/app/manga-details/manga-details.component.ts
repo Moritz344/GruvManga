@@ -8,8 +8,6 @@ import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
 import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
 
-// TODO: show similar manga
-
 @Component({
   selector: 'app-manga-details',
   imports: [RouterModule,CommonModule,FormsModule,MangaGraphComponent],
@@ -34,11 +32,12 @@ export class MangaDetailsComponent {
     console.log("User searched for",this.sharedData.lastSearch);
   }
 
+
   constructor(private mangaInfoService: MangaServiceService,private route: ActivatedRoute,public sharedData: SharedDataService ) {
+
 
     this.route.params.subscribe(params => {
       let lastSearch = params["title"];
-      console.log(lastSearch);
       this.sharedData.lastSearch = lastSearch; // nicht last search sondern last manga
 
       this.loadData();
@@ -120,7 +119,6 @@ export class MangaDetailsComponent {
       this.mangaInfoService.getMangaStatistics(manga_id).subscribe((data: any) => {
         const dist = data.statistics[manga_id]["rating"]["distribution"];
         this.sharedData.setDist(dist);
-        console.log(dist);
 
       })
 
@@ -142,6 +140,8 @@ export class MangaDetailsComponent {
             stat: status,
             year: mangaYear,
             content: contentRating,
+            chapter: "",
+            rating: "",
           };
           this.mangaDetail.push(newManga);
 

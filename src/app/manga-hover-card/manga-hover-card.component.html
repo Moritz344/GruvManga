@@ -1,0 +1,21 @@
+
+  <div
+    class="hover-card"
+    [ngStyle]="{ top: y + 'px', left: x + 'px' }"
+    >
+
+    <h3>{{ manga.title }}</h3>
+    <p class="status">{{ manga.stat }}</p>
+    <p class="year">{{ manga.year }}</p>
+    <p class="content">{{ manga.content }}</p>
+
+    <div class="chapter-container"  >
+        <img *ngIf="manga.chapter" src="assets/images/book.png" width="20" height="20"  >
+        <p  *ngIf="manga.chapter ">{{ manga.chapter}}</p>
+        <img  class="star" src="assets/images/star.png" width="20" height="20"  >
+        <p> {{ manga.rating }}</p>
+
+    </div>
+
+    <p>{{ manga.description}}</p>
+  </div>
