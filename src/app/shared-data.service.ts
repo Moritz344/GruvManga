@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 
 export class SharedDataService {
+    public lastInput: string = "";
     public lastSearch: string = "";
     public desc: string = "";
     private distSubject = new BehaviorSubject<{[key: string]: number}>({});

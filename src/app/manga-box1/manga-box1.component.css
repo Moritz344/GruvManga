@@ -9,6 +9,16 @@
     gap: 10px;
 }
 
+.main{
+    display: flex;
+    position: absolute;
+    font-size: 40px;
+    margin-top: 30px;
+    margin-left: 20px;
+    cursor: pointer;
+
+}
+
 .manga-field{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

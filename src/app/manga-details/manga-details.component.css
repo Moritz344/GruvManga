@@ -83,12 +83,11 @@ strong {
 
 
 .topbar{
-  display: flex;
-  background-color: rgba(0,0,0,0.1);
-  margin: 20px;
-  border-radius: 10px;
-  width: auto;
-  justify-content: left;
+    background-color: rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction: row;
+    width: auto;
+    margin-bottom: 30px;
 }
 
 .bottom-block{

@@ -23,8 +23,10 @@ export class MangaServiceService {
         if ( year !== "" ) {
             params.append("year",year);
         }
-        params.append("limit",limit);
-        const url = `${this.baseUrl}/manga?limit=${encodeURIComponent(limit)}&order[followedCount]=desc&${params.toString()}`;
+        if ( limit !== "" ) {
+          params.append("limit",limit);
+        }
+        const url = `${this.baseUrl}/manga?&order[followedCount]=desc&${params.toString()}`;
         return this.http.get(url);
 
 

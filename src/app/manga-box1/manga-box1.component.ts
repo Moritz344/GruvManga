@@ -7,7 +7,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
 import { MangaHoverCardComponent } from '../manga-hover-card/manga-hover-card.component';
 
-// TODO: show box when hover
+// TODO: different component for popular manga area, new manga area?
 
 @Component({
   selector: 'app-manga-box1',
@@ -17,7 +17,6 @@ import { MangaHoverCardComponent } from '../manga-hover-card/manga-hover-card.co
   providers: [MangaServiceService]
 })
 export class MangaBox1Component {
-  // TODO: pages
   mangaData: any;
   UserInput: any;
 
@@ -55,10 +54,9 @@ export class MangaBox1Component {
   handleClick(value:string){
     this.showMoreButton = false;
     this.mangaTitle = value;
+    this.sharedData.lastInput = value;
     console.log("User input:",this.mangaTitle);
-
-
-      this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption,this.seite);
+    this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption,this.seite);
   }
 
   handleYearOption(value: string) {
@@ -134,12 +132,13 @@ export class MangaBox1Component {
   }
 
   constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
-    if (this.sharedData.lastSearch !== "") {
-      this.clearManga();
-      this.handleClick(this.sharedData.lastSearch);
-    }else{
-      this.loadHomeScreen();
+    this.clearManga();
+    if (this.mangaTitle.length === 0) {
+      this.handleClick(this.sharedData.lastInput);
+
     }
+
+
 
 
   }
@@ -157,13 +156,16 @@ export class MangaBox1Component {
  }
 
   loadHomeScreen() {
-
       this.mangaTitle = "";
       this.sharedData.lastSearch = "";
 
-      this.loadPopularManga("9","");
+      this.clearManga();
+
+
+      this.loadPopularManga("","");
       this.loadNewManga("9");
-      this.loadLastYearManga("6");
+      //this.loadLastYearManga("6");
+
   }
 
   loadMoreMangas() {
@@ -258,7 +260,6 @@ clearManga() {
         let contentRating = mangaData.data[i]["attributes"]["contentRating"];
         let chapterAmount = mangaData.data[i]["attributes"]["lastChapter"];
 
-        //console.log(chapterAmount);
 
 
         this.mangaInfoService.getMangaChapters(manga_id).subscribe((chapterData: any) => {

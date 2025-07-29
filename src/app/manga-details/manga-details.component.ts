@@ -8,6 +8,8 @@ import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
 import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
 
+// TODO: topbar
+
 @Component({
   selector: 'app-manga-details',
   imports: [RouterModule,CommonModule,FormsModule,MangaGraphComponent],
