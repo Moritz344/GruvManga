@@ -2,7 +2,6 @@ import { Component,Input } from '@angular/core';
 import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 
-// TODO: year bug
 
 @Component({
   selector: 'app-manga-hover-card',

@@ -82,6 +82,11 @@ export class MangaServiceService {
       return this.http.get(url);
     }
 
+  getThumbnailCover() {
+      const url = `https://uploads.mangadex.org/covers/:manga-id/:cover-filename.{256, 512}.jpg` ;
+
+  }
+
    setMangas(mangas: Manga[]) {
      this.mangas = mangas;
      localStorage.setItem('mangas',JSON.stringify(mangas));

@@ -174,7 +174,6 @@
 .topbar{
     position: relative;
     display: inline-block;
-    margin-right: 0px;
 }
 .topbar button{
     position: absolute;

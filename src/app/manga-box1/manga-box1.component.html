@@ -64,7 +64,8 @@
   [routerLink]="['/manga',  manga.title ]"
   >
 
-  <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="200" height="250" alt="image">
+  <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [ngSrc]="manga.image" width="200" height="250" alt="image" >
+
 
   </div>
   <br>

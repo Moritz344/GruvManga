@@ -7,12 +7,13 @@ import { SimilarManga } from '../manga-box1/manga';
 import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
 import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
+import { NgOptimizedImage } from '@angular/common'
 
 // TODO: topbar
 
 @Component({
   selector: 'app-manga-details',
-  imports: [RouterModule,CommonModule,FormsModule,MangaGraphComponent],
+  imports: [RouterModule,CommonModule,FormsModule,MangaGraphComponent,NgOptimizedImage ],
   templateUrl: './manga-details.component.html',
   styleUrl: './manga-details.component.css',
   providers: [MangaServiceService]
@@ -27,7 +28,9 @@ export class MangaDetailsComponent {
   tagArray: string[] = [];
   SimilarManga: string[] = [];
   SimilarMangaImages: string[] = [];
-
+  alternativeTitles: string[] = [];
+  raw_link: string = "";
+  ebook_link: string = "";
 
 
   handleHomeClick() {
@@ -102,6 +105,17 @@ export class MangaDetailsComponent {
       let status = this.mangaData.data[0]["attributes"]["status"];
       let mangaYear = this.mangaData.data[0]["attributes"]["year"] ;
       let contentRating = this.mangaData.data[0]["attributes"]["contentRating"];
+      for (let i=0; i<this.mangaData.data[0]["attributes"]["altTitles"].length;i++) {
+        let titles = this.mangaData.data[0]["attributes"]["altTitles"] ;
+        let alternative = titles[i];
+
+        Object.entries(alternative).forEach(([key,value ]: any) => {
+          this.alternativeTitles.push(value);
+        })
+
+      }
+      this.raw_link = this.mangaData.data[0]["attributes"]["links"]["raw"];
+      this.ebook_link = this.mangaData.data[0]["attributes"]["links"]["ebj"];
 
 
 
@@ -127,6 +141,7 @@ export class MangaDetailsComponent {
         this.mangaInfoService.getMangaImageData(manga_id).subscribe((imageData: any) => {
           const filename = imageData.data[0].attributes.fileName || "Kein Bild";
           const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
+          const thumb = `https://uploads.mangadex.org/covers/${manga_id}/${filename}.512.jpg`;
 
           if (this.sharedData.lastSearch.length >= 50) {
             this.sharedData.lastSearch = this.sharedData.lastSearch.slice(0,100) + "...";
@@ -144,6 +159,7 @@ export class MangaDetailsComponent {
             content: contentRating,
             chapter: "",
             rating: "",
+            thumbnail: thumb,
           };
           this.mangaDetail.push(newManga);
 

@@ -5,9 +5,9 @@
     >
 
     <h3>{{ manga.title }}</h3>
-    <p class="status">{{ manga.stat }}</p>
-    <p class="year">{{ manga.year }}</p>
-    <p class="content">{{ manga.content }}</p>
+    <p class="status" *ngIf="manga.stat">{{ manga.stat }}</p>
+    <p class="year" *ngIf="manga.year">{{ manga.year }}</p>
+    <p class="content" *ngIf="manga.content">{{ manga.content }}</p>
 
     <div class="chapter-container"  >
         <img *ngIf="manga.chapter" src="assets/images/book.png" width="20" height="20"  >

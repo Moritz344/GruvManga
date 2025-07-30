@@ -13,7 +13,7 @@
   --purple: #b16286;
   --aqua: #689d6a;
   --orange: #d65d0e;
-
+  --purple-hover: #c6789a; /* etwas heller */
   --accent: var(--blue);
 }
 

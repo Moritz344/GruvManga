@@ -1,7 +1,7 @@
 
 .chart-wrapper{
+  display: flex;
   border-radius: 10px;
-  overflow: hidden;
   width: 1400px;
   height: 300px;
 }

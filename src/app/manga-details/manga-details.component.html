@@ -1,11 +1,12 @@
 
 <div class="display">
-
   <div class="topbar">
   <div class="home">
     <button type="button" [routerLink]="['/manga/suche',]" (click)="handleHomeClick()">Home</button>
   </div>
   </div>
+
+
   <div class="topblock" *ngFor="let manga of mangaDetail">
     <div class="sub-block">
     <img (load)="imageLoaded = true" [class.loaded]="imageLoaded" class="fade-img" [src]="manga.image" width="250" height="300">
@@ -28,8 +29,20 @@
 
     </div>
 
-    <app-manga-graph></app-manga-graph>
+    <div class="titles">
 
+      <p *ngFor="let title of alternativeTitles" class="title-block"> {{ title }}</p>
+
+    </div>
+
+    <div class="link">
+      <button >
+        <a class="link-block" target="_blank"  [href]="raw_link">Offical Raw</a>
+      </button>
+      <button >
+        <a class="link-block" target="_blank"  [href]="ebook_link">eBookJapan</a>
+      </button>
+    </div>
 
   </div>
   <div class="rec-text" *ngIf="similarManga.length >= 1">
@@ -44,3 +57,10 @@
   </div>
 
 </div>
+
+  <div >
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>

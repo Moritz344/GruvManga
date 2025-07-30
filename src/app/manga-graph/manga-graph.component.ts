@@ -16,7 +16,7 @@ export class MangaGraphComponent {
 
   dataPoints: { label: string; y: number }[] = [];
 
-  chartOptions: any;
+  chartOptions: any | null;
 
   updateChart() {
     this.chartOptions.data[0].dataPoints = this.dataPoints;

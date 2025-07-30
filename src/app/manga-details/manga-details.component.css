@@ -19,8 +19,6 @@ strong {
 
 
 .topblock{
-    background-color: #3c3836;
-    margin: 50px;
     padding: 50px;
     border-radius: 10px;
     height: auto;
@@ -35,6 +33,7 @@ strong {
 
 .sub-block{
   display: flex;
+  justify-content: center;
   gap: 50px;
 }
 
@@ -58,13 +57,52 @@ strong {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding-top: 10px;
+  padding-top: 20px;
+  margin-left: 80px;
+}
+
+.titles{
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  flex-direction: row;
+  margin-left: 80px;
+  gap: 0px;
+}
+.title-block{
+  display: inline-flex;
+  margin: 5px;
+  background-color: var(--purple);
+  border-radius: 10px;
+  padding: 10px;
+  width:auto;
+  height:auto;
+  transition: 0.3s ease;
+  cursor: pointer;
+  --red: #cc241d;
+  --green: #98971a;
+  --yellow: #d79921;
+  --blue: #458588;
+  --purple: #b16286;
+  --aqua: #689d6a;
+  --orange: #d65d0e;
+}
+
+.title-block:hover{
+  opacity:1;
+  background-color: var(--purple-hover)
+}
+
+.link{
+  display: flex;
+  margin-top: 20px;
+  margin-left: 85px;
+  gap: 10px;
 }
 
 
 .tag-block{
   display: inline-flex;
-  background-color: #a89984;
+  background-color: var(--aqua);
   border-radius: 10px;
   padding: 5px 12px;
   margin-top: 5px;
@@ -81,25 +119,45 @@ strong {
   transform: scale(1.12);
 }
 
+thumbnail{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+.thumb-block {
+  flex: 0 0 auto;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.thumb-block img {
+  width: 100%;
+  height: 300%;
+  display: block;
+  filter: blur(5px);
+}
 
 .topbar{
     background-color: rgba(0,0,0,0.1);
     display:flex;
     flex-direction: row;
     width: auto;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .bottom-block{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 10px;
-  background-color: #3c3836;
   width: auto;
   height: auto;
   padding: 5px 12px;
   border-radius: 10px;
-  margin: 50px;
+  margin: 80px;
   padding: 50px;
   margin-top: 0;
 }
@@ -112,13 +170,14 @@ strong {
 }
 
 .rec-text{
-  justify-content: left;
-  margin-left: 60px;
+  justify-content: right;
+  margin-left: 130px;
   max-width: 500px;
   max-height: 50px;
 }
 
 .rec-text p{
+  color: var(--yellow);
   font-size: 40px;
   white-space: nowrap;
 }

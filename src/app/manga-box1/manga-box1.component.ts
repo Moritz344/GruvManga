@@ -6,15 +6,20 @@ import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { SharedDataService } from '../shared-data.service';
 import { MangaHoverCardComponent } from '../manga-hover-card/manga-hover-card.component';
+import { NgOptimizedImage } from '@angular/common'
 
 // TODO: different component for popular manga area, new manga area?
+// TODO: thumbnail for cover: https://uploads.mangadex.org/covers/:manga-id/:cover-filename.{256, 512}.jpg
+// BUG: duplicate mangas at pages
 
 @Component({
   selector: 'app-manga-box1',
-  imports: [RouterModule,CommonModule,FormsModule,MangaHoverCardComponent],
+  imports: [RouterModule,CommonModule,FormsModule,MangaHoverCardComponent,NgOptimizedImage],
   templateUrl: './manga-box1.component.html',
   styleUrl: './manga-box1.component.css',
-  providers: [MangaServiceService]
+  providers: [
+    MangaServiceService,
+  ]
 })
 export class MangaBox1Component {
   mangaData: any;
@@ -225,6 +230,7 @@ clearManga() {
   }
 
   loadNextPage() {
+    this.clearManga();
     this.currentSeite = (Number(this.currentSeite) + 1).toString();
 
     this.activeSite = Number(this.currentSeite );
@@ -269,13 +275,12 @@ clearManga() {
 
       this.mangaInfoService.getMangaStatistics(manga_id).subscribe((data: any) => {
         const mangaRating = Number(data.statistics[manga_id]["rating"]["average"]).toFixed(1);
-
+        let alternativeTitles = "";
 
         this.mangaInfoService.getMangaImageData(manga_id).subscribe((imageData: any) => {
           var filename = imageData.data[0].attributes.fileName || "Kein Bild";
-          const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}`;
-
-
+          const imageUrl = `https://uploads.mangadex.org/covers/${manga_id}/${filename}.256.jpg`;
+          const thumb = `https://uploads.mangadex.org/covers/${manga_id}/${filename}.512.jpg`;
 
 
           const newManga: Manga = {
@@ -289,6 +294,7 @@ clearManga() {
             content: contentRating,
             chapter: chapters,
             rating: mangaRating.toString(),
+            thumbnail: thumb
           };
         this.mangaFace.push(newManga);
         this.sharedData.addManga(newManga);
