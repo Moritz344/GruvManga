@@ -3,6 +3,7 @@ import { CommonModule} from '@angular/common';
 import { FormsModule} from '@angular/forms';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Manga } from '../manga-box1/manga';
+import { LanguagesManga } from '../manga-box1/manga';
 import { SimilarManga } from '../manga-box1/manga';
 import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
@@ -23,12 +24,12 @@ export class MangaDetailsComponent {
   mangaTitle: any;
   mangaDetail: Manga[] = [];
   similarManga: SimilarManga[] = [];
+  languagesManga: LanguagesManga[] = [];
   mangaData: any;
   imageLoaded = false;
   tagArray: string[] = [];
   SimilarManga: string[] = [];
   SimilarMangaImages: string[] = [];
-  alternativeTitles: string[] = [];
   raw_link: string = "";
   ebook_link: string = "";
 
@@ -101,6 +102,7 @@ export class MangaDetailsComponent {
       console.log(data);
 
       let descriptions = this.mangaData.data[0]["attributes"]["description"] ;
+      console.log("Hier",descriptions);
       let descLen = Object.keys(descriptions).length;
       let status = this.mangaData.data[0]["attributes"]["status"];
       let mangaYear = this.mangaData.data[0]["attributes"]["year"] ;
@@ -110,7 +112,11 @@ export class MangaDetailsComponent {
         let alternative = titles[i];
 
         Object.entries(alternative).forEach(([key,value ]: any) => {
-          this.alternativeTitles.push(value);
+          const newLanguages: LanguagesManga = {
+            desc: value,
+            flag: key
+          }
+      this.languagesManga.push(newLanguages);
         })
 
       }

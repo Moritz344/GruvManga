@@ -19,7 +19,7 @@
         <p class="content-rating">{{ manga.content }}</p>
       </div>
     </div >
-      <p> {{ manga.description }}</p>
+      <p class="manga-desc"> {{ manga.description }}</p>
     </div>
 
     </div>
@@ -28,12 +28,15 @@
         <p *ngFor="let tag of tagArray | slice:0:12 " class="tag-block"> {{ tag }}</p>
 
     </div>
-
     <div class="titles">
-
-      <p *ngFor="let title of alternativeTitles" class="title-block"> {{ title }}</p>
-
+      <div *ngFor="let title of languagesManga" class="title-block">
+        <div class="title-row">
+          <img [src]="'assets/images/' + title.flag + '.png'" width="24" height="24" />
+          <p class="title-text"> {{ title.desc}} </p>
+        </div>
+      </div>
     </div>
+
 
     <div class="link">
       <button >
@@ -59,8 +62,5 @@
 </div>
 
   <div >
-    <br>
-    <br>
-    <br>
     <br>
   </div>

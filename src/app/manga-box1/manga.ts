@@ -16,3 +16,8 @@ export interface SimilarManga{
     title: string;
     image: string;
 }
+
+export interface LanguagesManga{
+    desc: string;
+    flag: string;
+}

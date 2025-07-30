@@ -6,13 +6,14 @@ function createWindow() {
     width: 1000,
     height: 700,
     webPreferences: {
-      contextIsolation: false,
+      contextIsolation: true,
       nodeIntegration: false
     },
   });
 
   win.loadFile(path.join(__dirname, '../dist/manga-app/browser/index.html'));
   win.webContents.openDevTools();
+
 }
 
 app.whenReady().then(createWindow);

@@ -76,7 +76,8 @@ export class MangaBox1Component {
 
   updateHoverPosition(event: MouseEvent,manga: any) {
     const index = this.mangaFace.indexOf(manga);
-    if (index === 5 || index === 6 || index === 12 || index === 13 || index === 19 || index == 20) {
+    // i have to hardcode this right? am I stupid?
+    if (index === 7 || index === 15 ) {
       this.hoverX = event.pageX - 540
       this.hoverY = event.pageY - 20
 
