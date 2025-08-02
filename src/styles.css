@@ -5,6 +5,7 @@
   --bg-soft: #3c3836;
   --fg: #ebdbb2;
   --fg-soft: #a89984;
+  --bg-light:  #383838;
 
   --black: #1d2021;
   --black-hover: #3c3836;
@@ -18,6 +19,7 @@
   --purple-hover: #c6789a; /* etwas heller */
   --accent: var(--blue);
 }
+
 
 select{
   max-width: 110px;
@@ -43,13 +45,14 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
+  overflow: scroll;
 }
 
 
 button {
   background-color: var(--bg-soft);
   color: var(--fg);
-  border: 1px solid var(--accent);
+  border: none;
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 4px;
