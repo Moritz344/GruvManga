@@ -14,9 +14,10 @@ export class StartPageComponent {
   imageArray: string[] = [];
   imageLoaded: boolean = false;
 
+
   constructor(private mangaInfoService: MangaServiceService) {
 
-    this.mangaInfoService.getPopularManga("6","2025").subscribe((data: any ) => {
+    this.mangaInfoService.getPopularManga("6","2025","safe").subscribe((data: any ) => {
       for (let i=0;i<data.data.length;i++) {
         let mangaId = data.data[i]["id"];
         this.mangaInfoService.getMangaImageData(mangaId).subscribe((imageData: any) => {
