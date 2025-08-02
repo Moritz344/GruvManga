@@ -18,13 +18,17 @@ export class MangaServiceService {
   }
 
 
-    getPopularManga(limit:string,year: string) {
+    getPopularManga(limit:string,year: string,contentRating: string) {
         const params = new URLSearchParams();
         if ( year !== "" ) {
             params.append("year",year);
         }
         if ( limit !== "" ) {
           params.append("limit",limit);
+        }
+
+        if ( contentRating !== "" ) {
+          params.append("contentRating[]",contentRating);
         }
         const url = `${this.baseUrl}/manga?&order[followedCount]=desc&${params.toString()}`;
         return this.http.get(url);
@@ -43,7 +47,7 @@ export class MangaServiceService {
         );
     }
 
-    getMangaInformation(mangaTitle: string, FilterOptions: string[],year: string,limit: string,offset: string): Observable<any> {
+    getMangaInformation(mangaTitle: string, FilterOptions: string[],year: string,limit: string,offset: string,contentRating: string): Observable<any> {
         return this.getFilterUUIDs(FilterOptions).pipe(
             switchMap((includedTagIDs: string[]) => {
                 const params = new URLSearchParams();
@@ -54,6 +58,10 @@ export class MangaServiceService {
                 params.append("limit",limit);
                 if (year !== "any" && year !== "" ) {
                     params.append("year",year);
+                }
+                if ( contentRating !== "" && contentRating !== "any" ) {
+                  params.append("contentRating[]",contentRating);
+
                 }
                 console.log("offset",offset);
                 const url = `${this.baseUrl}/manga?offset=${offset}&title=${encodeURIComponent(mangaTitle)}&${params.toString()}`;

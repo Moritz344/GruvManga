@@ -1,11 +1,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<p class="main" [routerLink]="['',]">MangaWebApp</p>
+<p class="main" [routerLink]="['',]"></p>
+  <div class="sidebar" [class.open]="!barClosed">
+    <button class="close-bar" (click)="closeSideBar()">x</button>
+    <a class="active" [routerLink]="['',]">
+
+      Start Page
+      <br>
+    </a>
+    <a  [routerLink]="['manga/suche',]">Search</a>
+    <a [routerLink]="['/about', ]">About</a>
+  </div>
 
 <div class="display">
 
 
     <div class="home">
+    <button [hidden]="!barClosed" class="open-bar"(click)="openSideBar()">☰</button>
       <button (click)="this.loadHomeScreen()" type="button"> Home </button>
   </div>
 
@@ -17,29 +28,51 @@
   </button>
   </div>
 
-
   <div class="filter-options">
 
-    <button (click)="resetFilterOptions()">Reset Filter</button>
-    <select  (change)= "handleFilterOption(GenreFilter)" [(ngModel)]="GenreFilter" id="genres" name="genres">
-      <option value="" disabled selected hidden>Genres</option>
-      <option value="any">Any</option>
-      <option *ngFor="let option of GenreOptions"  [value] = "option" >{{ option }}</option>
-
-    </select>
-
-    <select (change)="handleYearOption(YearOption)" [(ngModel)]="YearOption" id="year" name="year">
-      <option value="" disabled selected hidden>Year</option>
-      <option value="any">Any</option>
-      <option *ngFor = "let option of YearOptions" [value]="option">{{ option }}</option>
-    </select>
-
-  </div>
-  <div class="switch-page" >
+    <button (click)="toggleFilterBar()" class="filter-button">Filter</button>
 
     <button  (click)="loadMore()">Load more</button>
     <button  (click)="loadLess()"> Load less</button>
+
+      </div>
+
   </div>
+
+    <div class="filter-bar" *ngIf="!filterBarClosed" >
+      <div class="filter-options-container">
+      <button class="reset-filter" (click)="resetFilterOptions()">Reset </button>
+      <select  (change)= "handleFilterOption(GenreFilter)" [(ngModel)]="GenreFilter" id="genres" name="genres">
+        <option value="" disabled selected hidden>Genres</option>
+        <option value="any">Any</option>
+        @for (option of GenreOptions; track option) {
+        <option [value]="option">{{ option }}</option>
+        }
+        <option *ngFor="let option of GenreOptions"  [value] = "option" >{{ option }}</option>
+
+      </select>
+
+      <select (change)="handleYearOption(YearOption)" [(ngModel)]="YearOption" id="year" name="year">
+        <option value="" disabled selected hidden>Year</option>
+        <option value="any">Any</option>
+        <option *ngFor = "let option of YearOptions" [value]="option">{{ option }}</option>
+      </select>
+
+      <select (change)="handleStatusOption(StatusOption)" [(ngModel)]="StatusOption" id="status" name="status">
+        <option value="" disabled selected hidden>Status</option>
+        <option value="any">Any</option>
+        <option *ngFor = "let option of StatusOptions" [value]="option">{{ option }}</option>
+      </select>
+
+      <select (change)="handleContentRatingOption(ContentRatingOption)" [(ngModel)]="ContentRatingOption" id="content-rating" name="content-rating">
+        <option value="" disabled selected hidden>Content Rating</option>
+        <option value="any">Any</option>
+        <option *ngFor = "let option of ContentRatingOptions" [value]="option">{{ option }}</option>
+
+        </select>
+      </div>
+
+
 
 </div>
 
@@ -54,7 +87,7 @@
   </div>
 </div>
 
-<div class="manga-field">
+<div class="manga-field" >
 
 
 <div *ngFor="let manga of mangaFace" (mouseenter)="showHoverCard(manga, $event)" (mousemove)="updateHoverPosition($event,manga)" (mouseleave)="hideHoverCard()"  >
@@ -75,6 +108,7 @@
 
 
 
+
   <app-manga-hover-card
     *ngIf="hoveredManga"
     [manga]="hoveredManga"
@@ -83,7 +117,7 @@
  </app-manga-hover-card>
 
 </div>
-<div class="seiten"  *ngIf="mangaFace.length >= 5">
+<div class="seiten"  *ngIf="mangaFace.length >= 5 ">
   <button class="page-prev" (click)="loadPrevPage()"><</button>
   <button class="page-number" *ngIf=""(click)="loadPage(1)">1</button>
   <button class="page-number" [ngClass]="{ 'active-button': page === activeSite}" (click)="loadPage(page)" *ngFor="let page of totalArray" > {{ page }}</button>

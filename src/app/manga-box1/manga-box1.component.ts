@@ -39,6 +39,9 @@ export class MangaBox1Component {
   hoveredManga: any = null;
   hoverX: number = 0;
   hoverY: number = 0;
+  barClosed: boolean = true;
+  filterBarClosed: boolean = true;
+
 
   seite = "0";
   currentSeite = "";
@@ -47,11 +50,17 @@ export class MangaBox1Component {
   activeSite = 0;
   startSite = 0;
 
+
+
   fullChapter: number = 0;
 
   FilterOptions: string[] = [];
   GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
   YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016"];
+  StatusOptions: string[] = ["Ongoing","Completed","Cancelled","Hiatus"];
+  StatusOption = "any";
+  ContentRatingOptions: string[] = ["safe","suggestive","erotica"];
+  ContentRatingOption = "safe";
   mangaFace: Manga[] = [];
 
   showMoreButton = true;
@@ -61,7 +70,27 @@ export class MangaBox1Component {
     this.mangaTitle = value;
     this.sharedData.lastInput = value;
     console.log("User input:",this.mangaTitle);
-    this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption,this.seite);
+    this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption,this.seite,"");
+  }
+
+  handleContentRatingOption(value: string) {
+    this.ContentRatingOption = value;
+    console.log("Content Rating Option:",this.ContentRatingOption);
+  }
+
+  handleStatusOption(value: string) {
+    console.log("Status option:", value);
+  }
+
+  toggleFilterBar() {
+    this.filterBarClosed = !this.filterBarClosed;
+    console.log("Filter bar closed:",this.filterBarClosed);
+
+  }
+
+  closeFilterBar() {
+    this.filterBarClosed = true;
+    console.log("Filter bar closed:",this.filterBarClosed);
   }
 
   handleYearOption(value: string) {
@@ -74,18 +103,19 @@ export class MangaBox1Component {
     this.updateHoverPosition(event,"");
   }
 
-  updateHoverPosition(event: MouseEvent,manga: any) {
-    const index = this.mangaFace.indexOf(manga);
-    // i have to hardcode this right? am I stupid?
-    if (index === 7 || index === 15 ) {
-      this.hoverX = event.pageX - 540
-      this.hoverY = event.pageY - 20
+  closeSideBar() {
+    console.log("close sidebar");
+    this.barClosed = true;
+  }
+  openSideBar() {
+    console.log("open sidebar");
+    this.barClosed = false;
+  }
 
-    }else{
+  updateHoverPosition(event: MouseEvent,manga: any) {
       this.hoverX = event.pageX + 40
       this.hoverY = event.pageY - 20
 
-    }
 
   }
 
@@ -114,12 +144,13 @@ export class MangaBox1Component {
 
   resetFilterOptions() {
     this.FilterOptions.length = 0;
+    this.YearOption = "any";
     console.log("Cleared FilterOptions",this.FilterOptions);
   }
 
-  loadPopularManga(limit: string,year: string) {
+  loadPopularManga(limit: string,year: string,contentRating: string) {
     this.showMoreButton = true;
-    this.mangaInfoService.getPopularManga(limit,year).subscribe(data => {
+    this.mangaInfoService.getPopularManga(limit,year,contentRating).subscribe(data => {
       this.loadMangaInfos(data);
     })
   }
@@ -128,13 +159,13 @@ export class MangaBox1Component {
     // popular manga last year
     var date = new Date().getFullYear() - 1;
     let stringDate = date.toString();
-    this.loadPopularManga(limit,stringDate);
+    this.loadPopularManga(limit,stringDate,"safe");
   }
 
   loadNewManga(limit: string) {
     // New manga this year
     var date = new Date().getFullYear().toString();
-    this.loadData(this.FilterOptions,limit,date,this.seite);
+    this.loadData(this.FilterOptions,limit,date,this.seite,"safe");
   }
 
   constructor(private mangaInfoService: MangaServiceService,private sharedData: SharedDataService) {
@@ -152,7 +183,7 @@ export class MangaBox1Component {
 
  loadMore() {
    this.clearManga();
-   this.loadPopularManga("40","");
+   this.loadPopularManga("40","","safe");
  }
 
  loadLess() {
@@ -168,7 +199,7 @@ export class MangaBox1Component {
       this.clearManga();
 
 
-      this.loadPopularManga("","");
+      this.loadPopularManga("","","safe");
       this.loadNewManga("9");
       //this.loadLastYearManga("6");
 
@@ -179,13 +210,14 @@ export class MangaBox1Component {
     this.clearManga();
     this.currentSeite += 24;
 
-    this.loadData(this.FilterOptions,"23","any",this.currentSeite.toString());
+    this.loadData(this.FilterOptions,"23","any",this.currentSeite.toString(),"");
     console.log("test");
   }
 
- loadData(FilterOptions: string[],limit: string,year: string,offset: string){
+ loadData(FilterOptions: string[],limit: string,year: string,offset: string,contentRating: string){
     this.clearManga();
-    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset).subscribe(data => {
+   console.log("content rating:",this.ContentRatingOption);
+   this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset,this.ContentRatingOption).subscribe(data => {
       this.mangaData = data;
       if (this.mangaData.data["length"] > 0 ) {
 
@@ -227,7 +259,7 @@ clearManga() {
     let pageNumber = page.toString();
     this.currentSeite = page.toString();
     this.activeSite = page;
-    this.loadData(this.FilterOptions,"20","any",pageNumber);
+    this.loadData(this.FilterOptions,"20","any",pageNumber,"");
   }
 
   loadNextPage() {
@@ -237,7 +269,7 @@ clearManga() {
     this.activeSite = Number(this.currentSeite );
     console.log("active site:",this.activeSite);
     console.log(this.FilterOptions);
-    this.loadData(this.FilterOptions,"20","any",this.currentSeite );
+    this.loadData(this.FilterOptions,"20","any",this.currentSeite,"");
     console.log(this.currentSeite);
   }
 
@@ -247,7 +279,7 @@ clearManga() {
       this.currentSeite = (Number(this.currentSeite) - 1).toString();
 
       this.activeSite = Number(this.currentSeite );
-      this.loadData(this.FilterOptions,"20","any",this.currentSeite );
+      this.loadData(this.FilterOptions,"20","any",this.currentSeite,"");
     }
 
   }
