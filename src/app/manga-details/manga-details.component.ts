@@ -62,7 +62,7 @@ export class MangaDetailsComponent {
 
 
   getSimiliarMangas() {
-    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,this.tagArray,"","10","0","safe").subscribe(data => {
+    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,this.tagArray,"","10","0","safe","").subscribe(data => {
 
       for (let i=1;i<data.data.length;i++) {
         let manga_id = data.data[i]["id"];
@@ -87,7 +87,7 @@ export class MangaDetailsComponent {
   }
 
  loadData(){
-    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1","0","").subscribe(data => {
+    this.mangaInfoService.getMangaInformation(this.sharedData.lastSearch,[""],"","1","0","","").subscribe(data => {
       this.mangaData = data;
 
 

@@ -9,8 +9,8 @@ import { MangaHoverCardComponent } from '../manga-hover-card/manga-hover-card.co
 import { NgOptimizedImage } from '@angular/common'
 
 // TODO: different component for popular manga area, new manga area?
-// TODO: thumbnail for cover: https://uploads.mangadex.org/covers/:manga-id/:cover-filename.{256, 512}.jpg
 // BUG: duplicate mangas at pages
+// TODO: loading animation / message if no result
 
 @Component({
   selector: 'app-manga-box1',
@@ -57,12 +57,14 @@ export class MangaBox1Component {
   FilterOptions: string[] = [];
   GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
   YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016"];
-  StatusOptions: string[] = ["Ongoing","Completed","Cancelled","Hiatus"];
+  StatusOptions: string[] = ["ongoing","completed","cancelled","hiatus"];
   StatusOption = "any";
   ContentRatingOptions: string[] = ["safe","suggestive","erotica"];
   ContentRatingOption = "safe";
   mangaFace: Manga[] = [];
 
+  showLoadingAnimation = false; // loading animation value
+  showNoResultsText = false;
   showMoreButton = true;
 
   handleClick(value:string){
@@ -79,7 +81,8 @@ export class MangaBox1Component {
   }
 
   handleStatusOption(value: string) {
-    console.log("Status option:", value);
+    this.StatusOption = value;
+    console.log(value);
   }
 
   toggleFilterBar() {
@@ -217,16 +220,22 @@ export class MangaBox1Component {
  loadData(FilterOptions: string[],limit: string,year: string,offset: string,contentRating: string){
     this.clearManga();
    console.log("content rating:",this.ContentRatingOption);
-   this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset,this.ContentRatingOption).subscribe(data => {
+   this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset,this.ContentRatingOption,this.StatusOption).subscribe(data => {
       this.mangaData = data;
+      console.log(data);
       if (this.mangaData.data["length"] > 0 ) {
-
+        console.log("manga data is more than 0");
         this.totalNumber = data.total;
         this.loadMangaInfos(data);
 
-      }else{
-        this.mangaTitle = "No results";
       }
+
+     if (this.mangaData["total"] === 0) {
+       this.showNoResultsText = true;
+       console.log("no result");
+     }else{
+       this.showNoResultsText = false;
+     }
 
     });
 

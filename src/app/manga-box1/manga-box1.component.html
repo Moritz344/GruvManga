@@ -60,7 +60,7 @@
 
       <select (change)="handleStatusOption(StatusOption)" [(ngModel)]="StatusOption" id="status" name="status">
         <option value="" disabled selected hidden>Status</option>
-        <option value="any">Any</option>
+        <option value="any">any</option>
         <option *ngFor = "let option of StatusOptions" [value]="option">{{ option }}</option>
       </select>
 
@@ -86,6 +86,10 @@
     <strong class="year-block"*ngIf="YearOption !== 'any'">{{ YearOption }} </strong>
   </div>
 </div>
+
+@if (showNoResultsText ) {
+   <span>No results</span>
+}
 
 <div class="manga-field" >
 
