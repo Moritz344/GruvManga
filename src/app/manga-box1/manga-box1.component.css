@@ -2,6 +2,21 @@ select{
     border: none;
 }
 
+.NoResultsContainer{
+  display: flex;
+  justify-content: center;
+}
+.noResultsElements img{
+  background: transparent;
+}
+.noResultsElements h1{
+  margin-left: 20px;
+}
+
+.noResultsElements {
+  margin-top: 200px;
+}
+
 .sidebar {
   margin: 0;
   padding: 0;
@@ -283,6 +298,9 @@ div.content {
     font-size: 20px;
 }
 
+input:focus{
+  outline: none;
+}
 
 .topbar input{
     padding-right: 40px;

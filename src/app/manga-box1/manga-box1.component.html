@@ -32,8 +32,6 @@
 
     <button (click)="toggleFilterBar()" class="filter-button">Filter</button>
 
-    <button  (click)="loadMore()">Load more</button>
-    <button  (click)="loadLess()"> Load less</button>
 
       </div>
 
@@ -60,7 +58,7 @@
 
       <select (change)="handleStatusOption(StatusOption)" [(ngModel)]="StatusOption" id="status" name="status">
         <option value="" disabled selected hidden>Status</option>
-        <option value="any">any</option>
+        <option value="any">Any</option>
         <option *ngFor = "let option of StatusOptions" [value]="option">{{ option }}</option>
       </select>
 
@@ -88,7 +86,13 @@
 </div>
 
 @if (showNoResultsText ) {
-   <span>No results</span>
+  <div class="NoResultsContainer">
+    <div class="noResultsElements">
+      <h1>No results</h1>
+      <img src="assets/images/play.png" width="200" height="200" />
+    </div>
+  </div>
+
 }
 
 <div class="manga-field" >

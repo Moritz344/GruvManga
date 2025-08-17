@@ -184,16 +184,6 @@ export class MangaBox1Component {
   }
 
 
- loadMore() {
-   this.clearManga();
-   this.loadPopularManga("40","","safe");
- }
-
- loadLess() {
-   this.clearManga();
-   this.loadHomeScreen();
-
- }
 
   loadHomeScreen() {
       this.mangaTitle = "";
@@ -218,24 +208,25 @@ export class MangaBox1Component {
   }
 
  loadData(FilterOptions: string[],limit: string,year: string,offset: string,contentRating: string){
+   if (this.mangaFace.length === 0) {
+     this.showNoResultsText = true;
+   }else{
+     this.showNoResultsText = false;
+   }
     this.clearManga();
    console.log("content rating:",this.ContentRatingOption);
    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset,this.ContentRatingOption,this.StatusOption).subscribe(data => {
       this.mangaData = data;
       console.log(data);
       if (this.mangaData.data["length"] > 0 ) {
-        console.log("manga data is more than 0");
+        this.showNoResultsText = false;
         this.totalNumber = data.total;
         this.loadMangaInfos(data);
 
+      }else{
+        this.showNoResultsText = true;
       }
 
-     if (this.mangaData["total"] === 0) {
-       this.showNoResultsText = true;
-       console.log("no result");
-     }else{
-       this.showNoResultsText = false;
-     }
 
     });
 
@@ -264,7 +255,6 @@ clearManga() {
 
 
   loadPage(page: number) {
-
     let pageNumber = page.toString();
     this.currentSeite = page.toString();
     this.activeSite = page;
@@ -276,10 +266,10 @@ clearManga() {
     this.currentSeite = (Number(this.currentSeite) + 1).toString();
 
     this.activeSite = Number(this.currentSeite );
-    console.log("active site:",this.activeSite);
-    console.log(this.FilterOptions);
+    //console.log("active site:",this.activeSite);
+    //console.log(this.FilterOptions);
     this.loadData(this.FilterOptions,"20","any",this.currentSeite,"");
-    console.log(this.currentSeite);
+    //console.log(this.currentSeite);
   }
 
   loadPrevPage() {

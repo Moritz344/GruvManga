@@ -10,7 +10,6 @@ import { SharedDataService } from '../shared-data.service';
 import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
 import { NgOptimizedImage } from '@angular/common'
 
-// TODO: topbar
 
 @Component({
   selector: 'app-manga-details',
