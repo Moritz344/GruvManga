@@ -56,11 +56,11 @@ export class MangaBox1Component {
 
   FilterOptions: string[] = [];
   GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
-  YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016"];
+  YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012","2011","2010"];
   StatusOptions: string[] = ["ongoing","completed","cancelled","hiatus"];
-  StatusOption = "any";
+  StatusOption = "";
   ContentRatingOptions: string[] = ["safe","suggestive","erotica"];
-  ContentRatingOption = "safe";
+  ContentRatingOption = "";
   mangaFace: Manga[] = [];
 
   showLoadingAnimation = false; // loading animation value

@@ -4,11 +4,10 @@
   <div class="sidebar" [class.open]="!barClosed">
     <button class="close-bar" (click)="closeSideBar()">x</button>
     <a class="active" [routerLink]="['',]">
-
       Start Page
       <br>
     </a>
-    <a  [routerLink]="['manga/suche',]">Search</a>
+    <a  [routerLink]="['',]">Startpage</a>
     <a [routerLink]="['/about', ]">About</a>
   </div>
 
@@ -22,7 +21,7 @@
 
   <div class="topbar">
 
-  <input type="text" placeholder="Search ... " [(ngModel)] = "inputValue"  >
+  <input type="text" placeholder="Search ... " [(ngModel)]="inputValue" (keydown.code.enter)="handleClick(inputValue)"  >
   <button type="button" (click)="handleClick(inputValue)" >
     <i  class="fas fa-search" ></i>
   </button>
@@ -63,7 +62,7 @@
       </select>
 
       <select (change)="handleContentRatingOption(ContentRatingOption)" [(ngModel)]="ContentRatingOption" id="content-rating" name="content-rating">
-        <option value="" disabled selected hidden>Content Rating</option>
+        <option value="" disabled selected hidden>Content</option>
         <option value="any">Any</option>
         <option *ngFor = "let option of ContentRatingOptions" [value]="option">{{ option }}</option>
 
