@@ -45,16 +45,16 @@ export class MangaDetailsComponent {
       let lastSearch = params["title"];
       this.sharedData.lastSearch = lastSearch; // nicht last search sondern last manga
 
+
+
+    })
+
       this.loadData();
 
       console.log("mangas",this.sharedData.getMangaList);
       console.log("mangas",this.sharedData.mangas);
 
       this.getSimiliarMangas();
-
-
-    })
-
 
 
   }
