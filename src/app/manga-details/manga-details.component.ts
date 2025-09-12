@@ -7,13 +7,12 @@ import { LanguagesManga } from '../manga-box1/manga';
 import { SimilarManga } from '../manga-box1/manga';
 import { MangaServiceService } from '../manga-service.service';
 import { SharedDataService } from '../shared-data.service';
-import { MangaGraphComponent } from '../manga-graph/manga-graph.component';
 import { NgOptimizedImage } from '@angular/common'
 
 
 @Component({
   selector: 'app-manga-details',
-  imports: [RouterModule,CommonModule,FormsModule,MangaGraphComponent,NgOptimizedImage ],
+  imports: [RouterModule,CommonModule,FormsModule,NgOptimizedImage ],
   templateUrl: './manga-details.component.html',
   styleUrl: './manga-details.component.css',
   providers: [MangaServiceService]
