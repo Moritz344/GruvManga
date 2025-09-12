@@ -33,7 +33,6 @@ export class MangaDetailsComponent {
 
 
   handleHomeClick() {
-    console.log("User searched for",this.sharedData.lastSearch);
   }
 
 
@@ -50,8 +49,6 @@ export class MangaDetailsComponent {
 
       this.loadData();
 
-      console.log("mangas",this.sharedData.getMangaList);
-      console.log("mangas",this.sharedData.mangas);
 
       this.getSimiliarMangas();
 
@@ -97,10 +94,8 @@ export class MangaDetailsComponent {
         }
       }
 
-      console.log(data);
 
       let descriptions = this.mangaData.data[0]["attributes"]["description"] ;
-      console.log("Hier",descriptions);
       let descLen = Object.keys(descriptions).length;
       let status = this.mangaData.data[0]["attributes"]["status"];
       let mangaYear = this.mangaData.data[0]["attributes"]["year"] ;

@@ -31,6 +31,8 @@ export class MangaBox1Component {
   inputValue = "";
   GenreFilter = "";
   YearOption = "";
+  StatusOption = "";
+  ContentRatingOption = "";
 
   mangaLimit = "20";
   imageLoaded = false;
@@ -58,12 +60,10 @@ export class MangaBox1Component {
   GenreOptions: string[] = ["Action","Adventure","Comedy","Drama","Ecchi","Fantasy","Horror","Mahou Shoujo","Mecha","Music","Mystery","Psychological","Romance","Sc-Fi","Slice of Life","Sports","Supernatural","Thriller"];
   YearOptions: string[] = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012","2011","2010"];
   StatusOptions: string[] = ["ongoing","completed","cancelled","hiatus"];
-  StatusOption = "";
   ContentRatingOptions: string[] = ["safe","suggestive","erotica"];
-  ContentRatingOption = "";
   mangaFace: Manga[] = [];
 
-  showLoadingAnimation = false; // loading animation value
+  showLoadingAnimation = false;
   showNoResultsText = false;
   showMoreButton = true;
 
@@ -71,34 +71,33 @@ export class MangaBox1Component {
     this.showMoreButton = false;
     this.mangaTitle = value;
     this.sharedData.lastInput = value;
-    console.log("User input:",this.mangaTitle);
     this.loadData(this.FilterOptions,this.mangaLimit,this.YearOption,this.seite,"");
   }
 
   handleContentRatingOption(value: string) {
     this.ContentRatingOption = value;
-    console.log("Content Rating Option:",this.ContentRatingOption);
   }
 
   handleStatusOption(value: string) {
-    this.StatusOption = value;
-    console.log(value);
+    if (!this.FilterOptions.includes(value) && value !== "any") {
+      this.StatusOption = value;
+      this.FilterOptions.push(this.StatusOption);
+      console.log(this.FilterOptions);
+
+    }
   }
 
   toggleFilterBar() {
     this.filterBarClosed = !this.filterBarClosed;
-    console.log("Filter bar closed:",this.filterBarClosed);
 
   }
 
   closeFilterBar() {
     this.filterBarClosed = true;
-    console.log("Filter bar closed:",this.filterBarClosed);
   }
 
   handleYearOption(value: string) {
     this.YearOption = value;
-    console.log(this.YearOption);
   }
 
   showHoverCard(manga: any,event: MouseEvent) {
@@ -107,12 +106,7 @@ export class MangaBox1Component {
   }
 
   closeSideBar() {
-    console.log("close sidebar");
     this.barClosed = true;
-  }
-  openSideBar() {
-    console.log("open sidebar");
-    this.barClosed = false;
   }
 
   updateHoverPosition(event: MouseEvent,manga: any) {
@@ -130,7 +124,7 @@ export class MangaBox1Component {
     if (!this.FilterOptions.includes(value) && value !== "any") {
       this.GenreFilter = value;
       this.FilterOptions.push(value);
-      console.log("Current FilterOptions:",this.FilterOptions)
+      console.log(this.FilterOptions);
 
     }
   }
@@ -138,7 +132,6 @@ export class MangaBox1Component {
   deleteFilterOption(option: string) {
     const index = this.FilterOptions.indexOf(option);
     this.FilterOptions.splice(index,1);
-    console.log(this.FilterOptions);
   }
 
   deleteYearOption(option: string) {
@@ -148,7 +141,9 @@ export class MangaBox1Component {
   resetFilterOptions() {
     this.FilterOptions.length = 0;
     this.YearOption = "any";
-    console.log("Cleared FilterOptions",this.FilterOptions);
+    this.StatusOption = "any";
+    this.ContentRatingOption = "any";
+    this.GenreFilter = "any";
   }
 
   loadPopularManga(limit: string,year: string,contentRating: string) {
@@ -204,7 +199,6 @@ export class MangaBox1Component {
     this.currentSeite += 24;
 
     this.loadData(this.FilterOptions,"23","any",this.currentSeite.toString(),"");
-    console.log("test");
   }
 
  loadData(FilterOptions: string[],limit: string,year: string,offset: string,contentRating: string){
@@ -214,10 +208,8 @@ export class MangaBox1Component {
      this.showNoResultsText = false;
    }
     this.clearManga();
-   console.log("content rating:",this.ContentRatingOption);
    this.mangaInfoService.getMangaInformation(this.mangaTitle,FilterOptions,year,limit,offset,this.ContentRatingOption,this.StatusOption).subscribe(data => {
       this.mangaData = data;
-      console.log(data);
       if (this.mangaData.data["length"] > 0 ) {
         this.showNoResultsText = false;
         this.totalNumber = data.total;
@@ -266,15 +258,11 @@ clearManga() {
     this.currentSeite = (Number(this.currentSeite) + 1).toString();
 
     this.activeSite = Number(this.currentSeite );
-    //console.log("active site:",this.activeSite);
-    //console.log(this.FilterOptions);
     this.loadData(this.FilterOptions,"20","any",this.currentSeite,"");
-    //console.log(this.currentSeite);
   }
 
   loadPrevPage() {
     if ( this.currentSeite >= "1") {
-      console.log("LOAD PREVIOUS PAGE");
       this.currentSeite = (Number(this.currentSeite) - 1).toString();
 
       this.activeSite = Number(this.currentSeite );
@@ -338,7 +326,6 @@ clearManga() {
         });
 
 
-        //console.log(this.mangaFace);
       }
    }catch(err){
      console.log(err);

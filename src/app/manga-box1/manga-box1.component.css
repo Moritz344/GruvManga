@@ -17,48 +17,13 @@ select{
   margin-top: 200px;
 }
 
-.sidebar {
-  margin: 0;
-  padding: 0;
-  width: 200px;
-  background-color: var(--bg-light);
-  position: fixed;
-  height: 100%;
-  overflow: auto;
-  left: -200px;
-  transition: 0.3s ease;
-  z-index: 1000;
-}
-
-.sidebar.open{
-    left: 0;
-}
-
-
-.close-bar{
-    position: absolute;
-    margin-left: 160px;
-    margin-top: 3px;
-    background-color: transparent;
-    font-size: 20px;
-    border: none;
-}
-
-.sidebar.close{
-    left: 300px;
-}
 
 
 
 
 
-/* Sidebar links */
-.sidebar a {
-  display: block;
-  color: white;
-  padding: 16px;
-  text-decoration: none;
-}
+
+
 
 .filter-options-container{
     display: grid;
@@ -85,26 +50,13 @@ select{
     max-width: 100px;
 }
 
-/* Active/current link */
-.sidebar a.active {
-  background-color: var(--blue);
-  color: white;
-}
 
-/* Links on mouse-over */
-.sidebar a:hover:not(.active) {
-  background-color: #555;
-  color: white;
-}
-
-/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
 div.content {
   margin-left: 200px;
   padding: 1px 16px;
   height: 1000px;
 }
 
-/* On screens that are less than 700px wide, make the sidebar into a topbar */
 @media screen and (max-width: 700px) {
   .sidebar {
     width: 100%;
@@ -115,7 +67,6 @@ div.content {
   div.content {margin-left: 0;}
 }
 
-/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
 @media screen and (max-width: 400px) {
   .sidebar a {
     text-align: center;
@@ -208,7 +159,6 @@ div.content {
     height: auto;
     white-space: nowrap;
     align-items: center;
-    justify-conent: right;
 }
 
 .seiten{
@@ -289,10 +239,6 @@ div.content {
     flex-direction: row;
     gap: 10px;
 
-}
-.open-bar{
-  top: 20px;
-  left: 10px;
 }
 .home button{
     font-size: 20px;

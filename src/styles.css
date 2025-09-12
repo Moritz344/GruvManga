@@ -76,11 +76,14 @@ input {
 }
 
 a {
-  color: var(--accent);
+  color: var(--fg);
+  outline: none;
+  list-style-type: none;
   text-decoration: none;
+
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 

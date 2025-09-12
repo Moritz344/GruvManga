@@ -67,7 +67,6 @@ export class MangaServiceService {
                 }
 
                 if (status !== "" && status !== "any") {
-                  console.log(status);
                   params.append("status[]",status.toLowerCase());
                 }
 
@@ -76,10 +75,8 @@ export class MangaServiceService {
                 }
 
 
-                console.log("offset",offset);
                 const url = `${this.baseUrl}/manga?offset=${offset}&${params.toString()}&includedTagsMode=AND`;
 
-                console.log("url",url);
                 return this.http.get(url);
 
             })
@@ -104,16 +101,7 @@ export class MangaServiceService {
       return this.http.get(url);
     }
 
-  getThumbnailCover() {
-      const url = `https://uploads.mangadex.org/covers/:manga-id/:cover-filename.{256, 512}.jpg` ;
 
-  }
-
-   setMangas(mangas: Manga[]) {
-     this.mangas = mangas;
-     localStorage.setItem('mangas',JSON.stringify(mangas));
-     console.log("Save manga",this.mangas);
-   }
 
 
 

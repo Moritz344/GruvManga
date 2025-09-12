@@ -1,35 +1,29 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<p class="main" [routerLink]="['',]"></p>
-  <div class="sidebar" [class.open]="!barClosed">
-    <button class="close-bar" (click)="closeSideBar()">x</button>
-    <a class="active" [routerLink]="['',]">
-      Start Page
-      <br>
-    </a>
-    <a  [routerLink]="['',]">Startpage</a>
-    <a [routerLink]="['/about', ]">About</a>
-  </div>
 
 <div class="display">
 
 
-    <div class="home">
-    <button [hidden]="!barClosed" class="open-bar"(click)="openSideBar()">☰</button>
+  <div class="home">
       <button (click)="this.loadHomeScreen()" type="button"> Home </button>
+  </div>
+  <div class="home">
+    <button >
+    <a [routerLink]="['/about', ]">About</a>
+    </button>
   </div>
 
   <div class="topbar">
 
-  <input type="text" placeholder="Search ... " [(ngModel)]="inputValue" (keydown.code.enter)="handleClick(inputValue)"  >
-  <button type="button" (click)="handleClick(inputValue)" >
-    <i  class="fas fa-search" ></i>
-  </button>
-  </div>
+    <input type="text" placeholder="Search ... " [(ngModel)]="inputValue" (keydown.code.enter)="handleClick(inputValue)"  >
+    <button type="button" (click)="handleClick(inputValue)" >
+      <i  class="fas fa-search" ></i>
+    </button>
+    </div>
 
-  <div class="filter-options">
+    <div class="filter-options">
 
-    <button (click)="toggleFilterBar()" class="filter-button">Filter</button>
+      <button (click)="toggleFilterBar()" class="filter-button">Filter</button>
 
 
       </div>
@@ -39,6 +33,7 @@
     <div class="filter-bar" *ngIf="!filterBarClosed" >
       <div class="filter-options-container">
       <button class="reset-filter" (click)="resetFilterOptions()">Reset </button>
+
       <select  (change)= "handleFilterOption(GenreFilter)" [(ngModel)]="GenreFilter" id="genres" name="genres">
         <option value="" disabled selected hidden>Genres</option>
         <option value="any">Any</option>
@@ -55,13 +50,13 @@
         <option *ngFor = "let option of YearOptions" [value]="option">{{ option }}</option>
       </select>
 
-      <select (change)="handleStatusOption(StatusOption)" [(ngModel)]="StatusOption" id="status" name="status">
+      <select (change)="handleFilterOption(StatusOption)" [(ngModel)]="StatusOption" id="status" name="status">
         <option value="" disabled selected hidden>Status</option>
         <option value="any">Any</option>
         <option *ngFor = "let option of StatusOptions" [value]="option">{{ option }}</option>
       </select>
 
-      <select (change)="handleContentRatingOption(ContentRatingOption)" [(ngModel)]="ContentRatingOption" id="content-rating" name="content-rating">
+      <select (change)="handleFilterOption(ContentRatingOption)" [(ngModel)]="ContentRatingOption" id="content-rating" name="content-rating">
         <option value="" disabled selected hidden>Content</option>
         <option value="any">Any</option>
         <option *ngFor = "let option of ContentRatingOptions" [value]="option">{{ option }}</option>
