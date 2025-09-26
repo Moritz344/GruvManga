@@ -13,7 +13,6 @@ function createWindow() {
   });
 
   win.loadFile(path.join(__dirname, '../dist/manga-app/browser/index.html'));
-  win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
